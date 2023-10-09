@@ -4,8 +4,6 @@
 #'
 #' @usage data(AvotrexPhylo)
 #'
-#' @format An object of class \code{"cross"}; see \code{\link[qtl]{read.cross}}.
-#'
 #' @keywords datasets
 #'
 #' @references To be updated
