@@ -6,7 +6,7 @@
 #' @usage AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 #' 
 #' @details
-#' Additional details...
+#' Package to build phylogenies incorporating the extinct species from the AvoTrex extinct birds database. 
 #' 
 #' @param n.cores Number of cores used to build the phylogeny. Default is one (will run with parallel processing)
 #' @param cluster.ips Cluster location. Keep as default. 
@@ -16,11 +16,18 @@
 #' @param ctree multiPhylo object containing phylogenies. 
 #' @param avotrex The AvoTrex database of extinct species phylogeny and taxonomic relationships. This data contains the orders to append each species to the supplied extant phylogenies in a set order.  
 #' @return The function returns a multiPhylo object consisting of N trees that were randomly selected from a supplied number. These trees have all had the extinct species from AvoTrex grafted on. For more details on the grafting, see: **PAPER**
-#' @importFrom treeio function # Need to do this for each package and function used
-#'@examples
-#'# trees <- AvoPhylo()
-#'
-#'@export 
+#' @importFrom parallel makeCluster
+#' @importFrom snow makeSOCKcluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom doSNOW registerDoSNOW
+#' @importFrom utils txtProgressBar
+#' @importFrom utils setTxtProgressBar
+#' @importFrom foreach foreach
+#' @importFrom dplyr filter
+#' @importFrom stringr str_split
+#' @importFrom ape getMRCA
+#' @examples # trees <- AvoPhylo(ctrees = ctrees, avotrex = avotrex, PER = 0.2, tax = taxonomy, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+#' @export 
 AvoPhylo <- function(
     ctrees,
     avotrex,
@@ -30,18 +37,6 @@ AvoPhylo <- function(
     n.cores = 1,
     cluster.ips = NULL
     ){
-    
-  #### REMOVE AFTER UPDATING THE ABOVE PACKAGE FUNCTION
-  # Packages
-  # devtools::install_github("YuLab-SMU/treeio")
-  # devtools::install_github("YuLab-SMU/ggtree")
-  library(treeio)
-  library(ggtree)
-  library(phytools)
-  require(parallel)
-  require(foreach)
-  library(MonoPhy)
-  library(ggplot2)
   
   if(length(ctrees) < Ntree){stop("Error: Number of sampled trees greater than the number of supplied trees.")}
   #subset a number you want to test
@@ -125,7 +120,7 @@ AvoPhylo <- function(
         if(ex$Type[j] == "AP"){
           next
         } else if(ex$Type[j] == "S"){
-          ##' Scenario 1.1: Add target species as a single sister of species X ## - S (SISTER SPECIES)
+          ## Scenario 1.1: Add target species as a single sister of species X ## - S (SISTER SPECIES)
           
           # Get the tip location for the sister sp.
           nodeX <- which(ctree$tip.label == paste0(ex$Sister_genus[j], "_", ex$Sister_species[j] ) ) 
@@ -137,18 +132,18 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = 0.75, per_fixed = TRUE,
-                          sp_name = ex$species[j])
+                             per = 0.75, per_fixed = TRUE,
+                             sp_name = ex$species[j])
             
           } else {
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
           }
           
         } else if(ex$Type[j] %in% c("SSG", "SGG", "SGG2", "SFG", "SOG")){
-          ##' Scenario 1.2: Add species as a sister (outgroup) of a group of species ## - SSG (SISTER SPECIES GROUP) & SGG 
-          ##'               (SISTER GENUS GROUP) & SFG (SISTER FAMILY GROUP) & SOG (SISTER ORDER GROUP)
+          ## Scenario 1.2: Add species as a sister (outgroup) of a group of species ## - SSG (SISTER SPECIES GROUP) & SGG 
+          ##               (SISTER GENUS GROUP) & SFG (SISTER FAMILY GROUP) & SOG (SISTER ORDER GROUP)
           
           if(ex$Type[j] == "SSG"){
             
@@ -167,7 +162,7 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }else if(ex$Type[j] == "SGG"){
             
@@ -179,7 +174,7 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
             }else{
               
               # Get most recent common ancestor of genus 
@@ -187,7 +182,7 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
               
             }
             
@@ -208,7 +203,7 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeY,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }else if(ex$Type[j] == "SFG"){
             
@@ -227,7 +222,7 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }else if(ex$Type[j] == "SOG"){
             
@@ -246,13 +241,13 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }
           
         } else if(ex$Type[j] %in% c("RSG", "RGG", "RGG2", "RCG", "RFG", "ROG")){
-          ##' Scenario 2.1: Add species randomly within of a group of species ## - RSG (RANDOM SPECIES GROUP) & RGG 
-          ##'               (RANDOM GENUS GROUP) & RFG (RANDOM FAMILY GROUP) & ROG (RANDOM ORDER GROUP)
+          ## Scenario 2.1: Add species randomly within of a group of species ## - RSG (RANDOM SPECIES GROUP) & RGG 
+          ##               (RANDOM GENUS GROUP) & RFG (RANDOM FAMILY GROUP) & ROG (RANDOM ORDER GROUP)
           
           if(ex$Type[j] == "RSG"){
             
@@ -292,13 +287,13 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = 0.75, per_fixed = TRUE,
-                            sp_name = ex$species[j])
+                               per = 0.75, per_fixed = TRUE,
+                               sp_name = ex$species[j])
               
             } else {
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
             }
             
           }else if(ex$Type[j] == "RGG"){
@@ -327,13 +322,13 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = 0.75, per_fixed = TRUE,
-                            sp_name = ex$species[j])
+                               per = 0.75, per_fixed = TRUE,
+                               sp_name = ex$species[j])
               
             } else {
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
             }
             
           }else if(ex$Type[j] == "RGG2"){
@@ -356,7 +351,7 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }else if(ex$Type[j] == "RFG"){
             
@@ -378,7 +373,7 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }else if(ex$Type[j] == "RCG"){
             
@@ -400,7 +395,7 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }else if(ex$Type[j] == "ROG"){
             
@@ -422,13 +417,13 @@ AvoPhylo <- function(
             
             # Bind the extinct sp.
             ctree <- AvoBind(tree = ctree, node = nodeX,
-                          per = PER, sp_name = ex$species[j])
+                             per = PER, sp_name = ex$species[j])
             
           }
           
         } else if(ex$Type[j] %in% c("RSGG", "RSGG2")){
-          ##' Scenario 3.1: Add species as a sister to a genus selected randomly from a supplied group of genera (RSGG) or a 
-          ##'               random genus from a supplied family (RSGG2)
+          ## Scenario 3.1: Add species as a sister to a genus selected randomly from a supplied group of genera (RSGG) or a 
+          ##               random genus from a supplied family (RSGG2)
           
           if(ex$Type[j] == "RSGG"){
             
@@ -445,7 +440,7 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
               
             }else{
               
@@ -454,7 +449,7 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
               
             }
             
@@ -484,7 +479,7 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
               
             } else{
               
@@ -493,7 +488,7 @@ AvoPhylo <- function(
               
               # Bind the extinct sp.
               ctree <- AvoBind(tree = ctree, node = nodeX,
-                            per = PER, sp_name = ex$species[j])
+                               per = PER, sp_name = ex$species[j])
               
             }
             

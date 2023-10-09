@@ -1,0 +1,6 @@
+Package: Avotrex
+Version: 0.1.0
+Type: Package
+Title: A global dataset of anthropogenic extinct birds and their traits: Phylogeny builder
+Encoding: UTF-8
+RoxygenNote: 7.2.3
