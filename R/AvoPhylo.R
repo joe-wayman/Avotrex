@@ -2,6 +2,7 @@
 #' 
 #' @description
 #' AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone
+#' LazyData: true
 #' 
 #' @usage AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 #' 
@@ -26,7 +27,11 @@
 #' @importFrom dplyr filter
 #' @importFrom stringr str_split
 #' @importFrom ape getMRCA
-#' @examples # trees <- AvoPhylo(ctrees = ctrees, avotrex = avotrex, PER = 0.2, tax = taxonomy, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+#' @examples 
+#' # data(Trees)
+#' # data(Tax)
+#' # data(AvotrexPhylo)
+#' # trees <- AvoPhylo(ctrees = Trees, avotrex = AvotrexPhylo, PER = 0.2, tax = tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
 #' @export 
 AvoPhylo <- function(
     ctrees,
