@@ -2,12 +2,12 @@
 #'
 #' @docType data
 #'
-#' @usage data(Tax)
+#' @usage data(BirdTree_tax)
 #'
 #' @keywords datasets
 #'
 #' @references Jetz, W., Thomas, G. H., Joy, J. B., Hartmann, K., & Mooers, A. O. (2012). The global diversity of birds in space and time. Nature, 491(7424), 444-448.
 #'
 #' @examples
-#' data(Tax)
-"Tax"
+#' data(BirdTree_tax)
+"BirdTree_tax"

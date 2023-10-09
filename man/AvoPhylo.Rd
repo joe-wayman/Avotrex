@@ -2,7 +2,7 @@
 % Please edit documentation in R/AvoPhylo.R
 \name{AvoPhylo}
 \alias{AvoPhylo}
-\title{AvoPhylo: Building phylogenys' based on AvoTrex extinct bird trait database and BirdTree backbone}
+\title{AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone}
 \usage{
 AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 }
@@ -26,10 +26,16 @@ The function returns a multiPhylo object consisting of N trees that were randoml
 }
 \description{
 AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone
+LazyData: true
 }
 \details{
 Package to build phylogenies incorporating the extinct species from the AvoTrex extinct birds database.
 }
 \examples{
-# trees <- AvoPhylo(ctrees = ctrees, avotrex = avotrex, PER = 0.2, tax = taxonomy, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+# data(BirdTree_trees)
+# data(BirdTree_tax)
+# data(AvotrexPhylo)
+# trees <- AvoPhylo(ctrees = Trees, 
+# avotrex = AvotrexPhylo, PER = 0.2, tax = tax, 
+# Ntree = 1, n.cores = 1, cluster.ips = NULL)
 }

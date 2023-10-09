@@ -26,12 +26,14 @@
 #' @importFrom foreach foreach
 #' @importFrom dplyr filter
 #' @importFrom stringr str_split
-#' @importFrom ape getMRCA
+#' @import ape
 #' @examples 
-#' # data(Trees)
-#' # data(Tax)
+#' # data(BirdTree_trees)
+#' # data(BirdTree_tax)
 #' # data(AvotrexPhylo)
-#' # trees <- AvoPhylo(ctrees = Trees, avotrex = AvotrexPhylo, PER = 0.2, tax = tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+#' # trees <- AvoPhylo(ctrees = Trees, 
+#' # avotrex = AvotrexPhylo, PER = 0.2, tax = tax, 
+#' # Ntree = 1, n.cores = 1, cluster.ips = NULL)
 #' @export 
 AvoPhylo <- function(
     ctrees,

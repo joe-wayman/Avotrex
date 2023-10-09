@@ -1,4 +1,15 @@
 #' AvoBind - Internal function 
+#' @param tree Tree object (i.e., phylogeny) 
+#' @param node Target node 
+#' @param per The fraction (0-1) of total branch length to truncate at either
+#'   end of the branch for grafting (e.g. 0.2 cuts of 20% of the total branch
+#'   length from either end)
+#' @param per_fixed whether to graft on at an exact place rather than random;
+#'   value between 0-1, with larger number meaning grafting happens closer to
+#'   the root.
+#' @param sp_name Name of the grafted species
+#' @importFrom phytools bind.tip
+#' @export
 
 AvoBind <- function(
     tree, 
@@ -19,7 +30,7 @@ AvoBind <- function(
   }
   
   # Bind the extinct sp.
-  tree <- bind.tip(tree,                                                                   
+  tree <- phytools::bind.tip(tree,                                                                   
                    paste0(sp_name), 
                    where = node, 
                    position = runif(1, min = LxTrun[1],
