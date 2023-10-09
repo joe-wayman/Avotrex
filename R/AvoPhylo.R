@@ -121,7 +121,7 @@ AvoPhylo <- function(
         # vec <- paste0(j, ex[j,]$species)
         # write.csv(vec, paste0("Broke/broke_", i, ".csv"), row.names = F)
         
-        ## AP = Already present - Nothing needs to be done  
+        # AP = Already present - Nothing needs to be done  
         if(ex$Type[j] == "AP"){
           next
         } else if(ex$Type[j] == "S"){
