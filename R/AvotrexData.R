@@ -8,7 +8,7 @@
 #'
 #' @keywords datasets
 #'
-#' @references 
+#' @references To be updated
 #'
 #' @examples
 #' data(AvotrexPhylo)

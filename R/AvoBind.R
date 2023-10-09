@@ -5,6 +5,7 @@
 #' @param per_fixed whether to graft on at an exact place rather than random; value between 0-1, with larger number meaning grafting happens closer to the root.
 #' @param sp_name Name of the grafted species
 #' @importFrom phytools bind.tip
+#' @export
 
 AvoBind <- function(
     tree, 
