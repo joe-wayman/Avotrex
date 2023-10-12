@@ -27,6 +27,7 @@
 #' @importFrom dplyr filter
 #' @importFrom stringr str_split
 #' @import ape
+#' @return The imputed tree(s) with the extinct species grafted on. The object is returned as a class 'multiPhylo', the same as the input tree(s).
 #' @examples 
 #' # data(BirdTree_trees)
 #' # data(BirdTree_tax)
