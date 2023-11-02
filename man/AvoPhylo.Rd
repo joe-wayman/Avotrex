@@ -7,35 +7,51 @@
 AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 }
 \arguments{
-\item{avotrex}{The AvoTrex database of extinct species phylogeny and taxonomic relationships. This data contains the orders to append each species to the supplied extant phylogenies in a set order.}
+\item{ctrees}{multiPhylo object containing phylogenies.}
 
-\item{PER}{Precentage/fraction for branch truncation based on random grafting (see AvoBind for more details).}
+\item{avotrex}{The AvoTrex extinct species phylogeny database. This database
+contains the information and commands required to graft the extinct species
+on to the BirdTree trees.}
 
-\item{tax}{The Jetz et al. (2012) taxonomy .csv. Supplied as data within the package.}
+\item{PER}{Percentage/fraction for branch truncation based on random grafting
+(see AvoBind for more details).}
 
-\item{Ntree}{The number of trees to sample from the supplied number of trees. Value must be greater than the number of supplied trees (ctrees)}
+\item{tax}{The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
+within the package.}
 
-\item{n.cores}{Number of cores used to build the phylogeny. Default is one (will run with parallel processing)}
+\item{Ntree}{The number of trees to sample from the supplied number of
+BirdTree trees. Value must be greater than the number of supplied trees
+(ctrees)}
+
+\item{n.cores}{Number of cores used to build the phylogeny. Default is one
+(will run with parallel processing)}
 
 \item{cluster.ips}{Cluster location. Keep as default.}
-
-\item{ctree}{multiPhylo object containing phylogenies.}
 }
 \value{
-The function returns a multiPhylo object consisting of N trees that were randomly selected from a supplied number. These trees have all had the extinct species from AvoTrex grafted on. For more details on the grafting, see: **PAPER**
+The function returns a multiPhylo object consisting of N trees that
+  were randomly selected from a supplied number. These trees have all had the
+  extinct species from AvoTrex grafted on. For more details on the grafting,
+  see: **PAPER**
+
+The imputed tree(s) with the extinct species grafted on. The object is returned as a class 'multiPhylo', the same as the input tree(s).
 }
 \description{
-AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone
+AvoPhylo: Building phylogenies based on the AvoTrex database and BirdTree
+backbone
 LazyData: true
 }
 \details{
-Package to build phylogenies incorporating the extinct species from the AvoTrex extinct birds database.
+Function to build phylogenies incorporating the extinct species from the
+AvoTrex extinct birds database. **EXPAND - include info on the grafting 
+procedure, including the commands, the grafting order, the different codes in the 
+data file
 }
 \examples{
 # data(BirdTree_trees)
 # data(BirdTree_tax)
 # data(AvotrexPhylo)
-# trees <- AvoPhylo(ctrees = Trees, 
-# avotrex = AvotrexPhylo, PER = 0.2, tax = tax, 
+# trees <- AvoPhylo(ctrees = BirdTree_trees, 
+# avotrex = AvotrexPhylo, PER = 0.2, tax = BirdTree_tax, 
 # Ntree = 1, n.cores = 1, cluster.ips = NULL)
 }
