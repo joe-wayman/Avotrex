@@ -1,3 +1,7 @@
+utils::globalVariables(c("phylo_id2", "Group",
+                         "BLFamilyLatin", "Order",
+                         "Clade"))
+
 #' AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone
 #' 
 #' @description
@@ -120,6 +124,7 @@ AvoPhylo <- function(
       
       ## Subset the species to randomly shuffle
       shuff <- dplyr::filter(ex, phylo_id2 == "xS")
+
       ## Remove those species from the initial DB
       ex <- dplyr::filter(ex, !phylo_id2 == "xS")
       ## Set the order
@@ -366,7 +371,7 @@ AvoPhylo <- function(
           }else if(ex$Type[j] == "ROG"){
             
             # Get all species within the family 
-            ord <- dplyr::filter(tax, order == ex$Sister_family[j])
+            ord <- dplyr::filter(tax, Order == ex$Sister_family[j])
             spv <- vector()
             
             for(x in 1:nrow(fam)){
