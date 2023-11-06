@@ -13,9 +13,27 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' 
 #' @details
 #' Function to build phylogenies incorporating the extinct species from the
-#' AvoTrex extinct birds database. **EXPAND - include info on the grafting 
+#' AvoTrex extinct birds database. 
+#' **EXPAND - include info on the grafting 
 #' procedure, including the commands, the grafting order, the different codes in the 
 #' data file
+#' Codes | Full name                   | Definition    
+#' -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                  
+#' AP    | Already present             | A species is already present in the BirdTree taxonomy
+#' S     | Sister                      | Grafted as a sister to a known extant or extinct species already in the tree
+#' SSG   | Sister species group        | Grafted as a sister to a group of extant and/or extinct species already in the tree
+#' SGG   | Sister genus group          | Grafted as a sister to an entire extant or extinct genus (i.e., for the first grafted representative of an extinct genus)
+#' SGG2  | Sister genus group 2        | Grafted as sister to multiple genera. This was for when a species was sister to a subfamily or some other large specific clade
+#' SFG   | Sister family group         | Grafted as a sister to an entire extant or extinct family already present in the tree (i.e., for the first grafted representative of an extinct family)
+#' SOG   | Sister order group          | Grafted as a sister to an entire order already present in the tree (i.e., for the first grafted representative of an extinct order)
+#' RSG   | Random species group        | Grafted to a randomly selected species from a pre-defined group of species (i.e., from which is believed to have close affinities
+#' RGG   | Random genus group          | Grafted to a randomly selected species from a given genus. For example, if an extinct species was believed to be a finch derived from a European finch species, but the exact sister species is unknown.
+#' RGG2  | Random genus group 2        | Grafted to a randomly selected species from a group of genera (e.g. when all that is known is that the species is from a specific subfamily). Currently not used in the database, but the relevant functionality has been kept in the R script, as it could be useful for future studies
+#' RFG   | Random family group         | Grafted to a randomly selected species from a given family
+#' RSGG  | Random sister genus group   | Grafted as sister to a randomly selected genus from a pre-defined group of genera
+#' RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected genus from a pre-defined family
+#' 
+#' @references Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in the Holocene and Late Pleistocene; Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity from extinctions in the Holocene and Late Pleistocene 
 #' 
 #' @param n.cores Number of cores used to build the phylogeny. Default is one
 #'   (will run with parallel processing)
@@ -82,25 +100,12 @@ AvoPhylo <- function(
     else {
       temp.cluster <- parallel::makeCluster(n.cores, type = "PSOCK")
     }
-  }else {
-    Sys.setenv(R_PARALLEL_PORT = cluster.port)
-    cluster.spec <- cluster_specification(cluster.ips = cluster.ips, 
-                                          cluster.cores = cluster.cores, cluster.user = cluster.user)
-    if (verbose == TRUE) {
-      outfile <- ""
-    }else {
-      if (.Platform$OS.type == "windows") {
-        outfile <- "nul:"
-      }else {
-        outfile <- "/dev/null"
-      }
-    }
-    temp.cluster <- snow::makeSOCKcluster(ncores)
   }
   if (exists("temp.cluster")) {
     doParallel::registerDoParallel(cl = temp.cluster)
     doSNOW::registerDoSNOW(temp.cluster)
   }
+  
   #Set a progress bar to return progress of the foreach loop
   pb <- txtProgressBar(min = 0, max = length(Ntree), style = 3)
   progress <- function(n) setTxtProgressBar(pb, n)
