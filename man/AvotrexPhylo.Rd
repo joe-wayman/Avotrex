@@ -26,12 +26,12 @@ The dataset provides instructions to graft extinct bird species from Sayol et al
     \item{\code{Jetz_Family}}{a character vector detailing species family within the Jetz phylogeny}
     \item{\code{Jetz_Genus}}{a character vector detailing species genus within the Jetz phylogeny}
     \item{\code{Type}}{a character vector of codes. The codes determine how and where the species is grafted to the tree. See details and function "AvoPhylo"}
-    \item{\code{Sister_order}}{a character vector}
-    \item{\code{Sister_clade}}{a character vector}
-    \item{\code{Sister_family}}{a character vector}
-    \item{\code{Sister_genus}}{a character vector}
-    \item{\code{Sister_species}}{a character vector}
-    \item{\code{Sister_species_group}}{a character vector}
+    \item{\code{Sister_order}}{a character vector. Provides the order within the BirdTree backbone tree to join the extinct species to, or randomly within, depending on the code within the column "Type"}
+    \item{\code{Sister_clade}}{a character vector. Provides the clade within the BirdTree backbone tree to join the extinct species to, or randomly within, depending on the code within the column "Type"}
+    \item{\code{Sister_family}}{a character vector. Provides the family within the BirdTree backbone tree to join the extinct species to, or randomly within, depending on the code within the column "Type"}
+    \item{\code{Sister_genus}}{a character vector. Provides the genus within the BirdTree backbone tree to join the extinct species to, or randomly within, depending on the code within the column "Type"}
+    \item{\code{Sister_species}}{a character vector. Provides the species within the BirdTree backbone tree to join the extinct species to depending on the code within the column "Type"}
+    \item{\code{Sister_species_group}}{a character vector. Provides the group of species within the BirdTree backbone tree to join the extinct species to, or randomly within, depending on the code within the column "Type"}
   }
 }
 \details{
