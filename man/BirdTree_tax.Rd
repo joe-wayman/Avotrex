@@ -9,18 +9,18 @@ Dataset from Jetz et al. (2012) detailing the BirdTree taxonomy used in the Bird
 }
 \usage{data("BirdTree_tax")}
 \format{
-  A data frame with 0 observations on the following 2 variables.
+  A data frame with 9993 observations on the following 11 variables.
   \describe{
-    \item{\code{Genus}}{a character vector}
-    \item{\code{Species}}{a character vector}
-    \item{\code{TipLabel}}{a character vector}
-    \item{\code{English}}{a character vector}
-    \item{\code{Taxonomy}}{a character vector}
-    \item{\code{Clade}}{a character vector}
-    \item{\code{BLFamilyLatin}}{a character vector}
-    \item{\code{BLFamilyEnglish}}{a character vector}
+    \item{\code{Genus}}{a character vector detailing the Bird Tree genus}
+    \item{\code{Species}}{a character vector detailing the Bird Tree species name}
+    \item{\code{TipLabel}}{a character vector detailing the tip label (genus and species name separated by an underscore)}
+    \item{\code{English}}{a character vector detailing the common name for the species}
+    \item{\code{Taxonomy}}{a character vector detailing the Bird Tree taxonomy}
+    \item{\code{Clade}}{a character vector detailing the Bird Tree clade}
+    \item{\code{BLFamilyLatin}}{a character vector detailing the Bird Tree family name (latin)}
+    \item{\code{BLFamilyEnglish}}{a character vector detailing the Bird Tree family name (common)}
     \item{\code{FamSequID}}{a numeric vector}
-    \item{\code{Order}}{a character vector}
+    \item{\code{Order}}{a character vector detailing the Bird Tree order}
     \item{\code{OscSubOsc}}{a character vector}
   }
 }
