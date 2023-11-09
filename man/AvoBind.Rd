@@ -2,7 +2,7 @@
 % Please edit documentation in R/AvoBind.R
 \name{AvoBind}
 \alias{AvoBind}
-\title{AvoBind - Internal function}
+\title{AvoBind - Bind extinct species to the tree}
 \usage{
 AvoBind(tree, node, per, per_fixed = FALSE, sp_name)
 }
@@ -13,14 +13,18 @@ AvoBind(tree, node, per, per_fixed = FALSE, sp_name)
 
 \item{per}{The fraction (0-1) of total branch length to truncate at either
 end of the branch for grafting (e.g. 0.2 cuts of 20% of the total branch
-length from either end)}
+length from either end) if \code{per_fixed == FALSE}. If \code{per_fixed
+== TRUE}, then the point along the branch where the grafting occurs: value
+between 0-1, with a larger number meaning the grafting occurs closer to the
+rootward end of the branch}
 
-\item{per_fixed}{whether to graft on at an exact place rather than random;
-value between 0-1, with larger number meaning grafting happens closer to
-the root.}
+\item{per_fixed}{Logical argument: whether to graft a species on at an exact
+point along a branch (TRUE), which is chosen using the \code{per} argument,
+rather than random (FALSE; default)}
 
 \item{sp_name}{Name of the grafted species}
 }
 \description{
-AvoBind - Internal function
+Binds an extinct species at a randomly selected
+point along a branch, after truncating either end.
 }

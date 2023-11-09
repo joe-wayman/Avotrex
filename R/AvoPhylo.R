@@ -5,32 +5,40 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone
 #' 
 #' @description
-#' AvoPhylo: Building phylogenies based on the AvoTrex database and BirdTree
-#' backbone
+#' Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
 #' LazyData: true
 #' 
 #' @usage AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 #' 
 #' @details
-#' Function to build phylogenies incorporating the extinct species from the AvoTrex extinct birds database (Sayol et al.).
-#' AvoTrex provides data on geographical location, island endemicity, volancy, body size and standard external and skeleton 
-#' morphological measurements for 602 extinct bird species. The AvoPhylo function provides a pipeline to incorporate the 
-#' extinct species from AvoTrex into the "BirdTree" phylogeny of exant birds (Jetz et al. 2012). Utilising codes assigned to 
-#' each species based on their known taxonomic affinities, the function binds each species in turn to provided phylogenetic 
-#' trees. 
+#' Function to build phylogenies incorporating the extinct species from the
+#' AvoTrex extinct birds database (Sayol et al.). AvoTrex provides data on
+#' geographical location, island endemicity, volancy, body size and standard
+#' external and skeleton morphological measurements for 602 extinct bird
+#' species. The AvoPhylo function provides a pipeline to incorporate the extinct
+#' species from AvoTrex into the "BirdTree" phylogeny of extant birds (Jetz et
+#' al. 2012). Utilising codes assigned to each species based on their known
+#' taxonomic affinities, the function binds each species in turn to a provided
+#' BirdTree phylogeny.
 #' 
-#' The species are grafted onto the tree in a set order provided in the column " phylo_id", as certain species need to
-#' be grafted onto the tree before other species. Some species are assigned to groups within the data. These species are 
-#' assigned a code "xS" within the column "phylo_id2". These species groups consist of close relatives, whose exact taxonomic 
-#' relationships are unknown. Therefore, the order in which they are joined is randomised. 
+#' The species are grafted onto the tree in a set order provided in the column "
+#' phylo_id", as certain species need to be grafted onto the tree before other
+#' species. Some species are assigned to groups within the data. These species
+#' are assigned a code "xS" within the column "phylo_id2". These species groups
+#' consist of close relatives, whose exact taxonomic relationships are unknown.
+#' Therefore, the order in which they are joined is randomised. See Sayol et al.
+#' and Matthews et al. for furter details.
 #' 
-#' As some of the codes (see table below) randomly place the given species within a group of species, a genus, or a family, 
-#' and some species groups are randomised before grafting (see above), it is useful to run the grafting proceedure over a 
-#' a number of trees to average out the randomisation. Therefore, the function can be run in parallel using the argument
-#' "n.cores". Note that the function will run on one core as default and if only one tree is supplied. Trees can also be 
-#' randomly selected from a number of trees by giving the function a group of trees using the argument "ctrees" and then 
-#' defining a smaller number using "Ntree". If the maximum number of trees is to be used, "ctrees" and "Ntree" should have 
-#' the same value. 
+#' As some of the codes (see table below) randomly place the given species
+#' within a group of species, a genus, or a family, and some species groups are
+#' randomised before grafting (see above), it is useful to run the grafting
+#' procedure over a a number of trees to average out the randomisation.
+#' Therefore, the function can be run in parallel using the argument "n.cores".
+#' Note that the function will run on one core as default and if only one tree
+#' is supplied. Trees can also be randomly selected from a number of trees by
+#' giving the function a group of trees using the argument "ctrees" and then
+#' defining a smaller number using "Ntree". If the maximum number of trees is to
+#' be used, "ctrees" and "Ntree" should have the same value.
 #' 
 #' Codes | Full name                   | Definition                                                                          |
 #' --------------------------------------------------------------------------------------------------------------------------|
@@ -77,7 +85,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #'   (will run with parallel processing)
 #' @param cluster.ips Cluster location. Keep as default. 
 #' @param PER Percentage/fraction for branch truncation based on random grafting
-#'   (see AvoBind for more details).
+#'   (see \code{\link{AvoBind}} for more details).
 #' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
 #'   within the package.
 #' @param Ntree The number of trees to sample from the supplied number of
@@ -122,7 +130,19 @@ AvoPhylo <- function(
     cluster.ips = NULL
     ){
   
-  if(length(ctrees) < Ntree){stop("Error: Number of sampled trees greater than the number of supplied trees.")}
+  if (length(ctrees) < Ntree){stop("Error: Number of sampled trees greater than the number of supplied trees.")}
+  
+  if (!all(avotrex$Type %in% c("AP","RFG","RGG", "RGG2", "RSG", 
+                               "RSGG","RSGG2","S","SFG", 
+                               "SGG","SGG2","SOG","SSG",
+                               "RCG", "ROG"))){
+    stop("Group column in avotrex argument contains invalid codes")
+  }
+  
+  if (PER < 0 | PER > 1){
+    stop ("PER must be numeric and >= 0 and <= 1")
+  }
+  
   #subset a number you want to test
   ctrees <- sample(ctrees, Ntree, replace = F)
   

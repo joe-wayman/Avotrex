@@ -14,7 +14,7 @@ contains the information and commands required to graft the extinct species
 on to the BirdTree trees.}
 
 \item{PER}{Percentage/fraction for branch truncation based on random grafting
-(see AvoBind for more details).}
+(see \code{\link{AvoBind}} for more details).}
 
 \item{tax}{The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
 within the package.}
@@ -39,30 +39,38 @@ The imputed tree(s) with the extinct species grafted on. The object is returned 
 as the input tree(s).
 }
 \description{
-AvoPhylo: Building phylogenies based on the AvoTrex database and BirdTree
-backbone
+Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
 LazyData: true
 }
 \details{
-Function to build phylogenies incorporating the extinct species from the AvoTrex extinct birds database (Sayol et al.).
-AvoTrex provides data on geographical location, island endemicity, volancy, body size and standard external and skeleton 
-morphological measurements for 602 extinct bird species. The AvoPhylo function provides a pipeline to incorporate the 
-extinct species from AvoTrex into the "BirdTree" phylogeny of exant birds (Jetz et al. 2012). Utilising codes assigned to 
-each species based on their known taxonomic affinities, the function binds each species in turn to provided phylogenetic 
-trees. 
+Function to build phylogenies incorporating the extinct species from the
+AvoTrex extinct birds database (Sayol et al.). AvoTrex provides data on
+geographical location, island endemicity, volancy, body size and standard
+external and skeleton morphological measurements for 602 extinct bird
+species. The AvoPhylo function provides a pipeline to incorporate the extinct
+species from AvoTrex into the "BirdTree" phylogeny of extant birds (Jetz et
+al. 2012). Utilising codes assigned to each species based on their known
+taxonomic affinities, the function binds each species in turn to a provided
+BirdTree phylogeny.
 
-The species are grafted onto the tree in a set order provided in the column " phylo_id", as certain species need to
-be grafted onto the tree before other species. Some species are assigned to groups within the data. These species are 
-assigned a code "xS" within the column "phylo_id2". These species groups consist of close relatives, whose exact taxonomic 
-relationships are unknown. Therefore, the order in which they are joined is randomised. 
+The species are grafted onto the tree in a set order provided in the column "
+phylo_id", as certain species need to be grafted onto the tree before other
+species. Some species are assigned to groups within the data. These species
+are assigned a code "xS" within the column "phylo_id2". These species groups
+consist of close relatives, whose exact taxonomic relationships are unknown.
+Therefore, the order in which they are joined is randomised. See Sayol et al.
+and Matthews et al. for furter details.
 
-As some of the codes (see table below) randomly place the given species within a group of species, a genus, or a family, 
-and some species groups are randomised before grafting (see above), it is useful to run the grafting proceedure over a 
-a number of trees to average out the randomisation. Therefore, the function can be run in parallel using the argument
-"n.cores". Note that the function will run on one core as default and if only one tree is supplied. Trees can also be 
-randomly selected from a number of trees by giving the function a group of trees using the argument "ctrees" and then 
-defining a smaller number using "Ntree". If the maximum number of trees is to be used, "ctrees" and "Ntree" should have 
-the same value. 
+As some of the codes (see table below) randomly place the given species
+within a group of species, a genus, or a family, and some species groups are
+randomised before grafting (see above), it is useful to run the grafting
+procedure over a a number of trees to average out the randomisation.
+Therefore, the function can be run in parallel using the argument "n.cores".
+Note that the function will run on one core as default and if only one tree
+is supplied. Trees can also be randomly selected from a number of trees by
+giving the function a group of trees using the argument "ctrees" and then
+defining a smaller number using "Ntree". If the maximum number of trees is to
+be used, "ctrees" and "Ntree" should have the same value.
 
 Codes | Full name                   | Definition                                                                          |
 --------------------------------------------------------------------------------------------------------------------------|
