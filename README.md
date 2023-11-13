@@ -1,7 +1,7 @@
 # Avotrex
-Repository for R package Avotrex.  
+Repository for R package avotrex.  
 
-The Avotrex package provides functionality to graft extinct avian species, present in the AvoTrex dataset, to existing BirdTree backbone trees. 
+The avotrex package provides functionality to graft extinct avian species, present in the AvoTrex dataset, to existing BirdTree backbone trees. 
 
 Note that the package imports and loads in the 'ape' R package in its entirety,
 as this provides access to its full range of classes and functions.
@@ -17,6 +17,8 @@ You can install the released version of sars from CRAN with:
 And the development version from GitHub with:
 
 ## Example usage
+
+library(avotrex)
 
 data(BirdTree_trees) # Load in the example trees 
 data(BirdTree_tax)   # Load in the extant BirdTree taxonomy 
