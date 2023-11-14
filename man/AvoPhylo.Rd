@@ -40,7 +40,6 @@ as the input tree(s).
 }
 \description{
 Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
-LazyData: true
 }
 \details{
 Function to build phylogenies incorporating the extinct species from the
@@ -119,6 +118,8 @@ RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected g
 }
 \references{
 Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in 
-the Holocene and Late Pleistocene; Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
+the Holocene and Late Pleistocene
+
+Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
 from extinctions in the Holocene and Late Pleistocene
 }

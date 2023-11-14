@@ -6,7 +6,6 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' 
 #' @description
 #' Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
-#' LazyData: true
 #' 
 #' @usage AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 #' 
@@ -78,7 +77,9 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' --------------------------------------------------------------------------------------------------------------------------|
 #'     
 #' @references Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in 
-#' the Holocene and Late Pleistocene; Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
+#' the Holocene and Late Pleistocene
+#' 
+#' Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
 #' from extinctions in the Holocene and Late Pleistocene 
 #' 
 #' @param n.cores Number of cores used to build the phylogeny. Default is one

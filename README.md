@@ -1,4 +1,4 @@
-# Avotrex
+# avotrex
 Repository for R package avotrex.  
 
 The avotrex package provides functionality to graft extinct avian species, present in the AvoTrex dataset, to existing BirdTree backbone trees. 
