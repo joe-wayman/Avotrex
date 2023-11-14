@@ -2,12 +2,13 @@
 % Please edit documentation in R/AvoPhylo.R
 \name{AvoPhylo}
 \alias{AvoPhylo}
-\title{AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone}
+\title{AvoPhylo: Building phylogenies based on the AvoTrex extinct bird trait
+database and BirdTree backbone}
 \usage{
 AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
 }
 \arguments{
-\item{ctrees}{multiPhylo object containing phylogenies.}
+\item{ctrees}{multiPhylo object containing BirdTree phylogenies.}
 
 \item{avotrex}{The AvoTrex extinct species phylogeny database. This database
 contains the information and commands required to graft the extinct species
@@ -47,10 +48,12 @@ AvoTrex extinct birds database (Sayol et al.). AvoTrex provides data on
 geographical location, island endemicity, volancy, body size and standard
 external and skeleton morphological measurements for 602 extinct bird
 species. The AvoPhylo function provides a pipeline to incorporate the extinct
-species from AvoTrex into the "BirdTree" phylogeny of extant birds (Jetz et
+species from AvoTrex into the "BirdTree" phylogenies of extant birds (Jetz et
 al. 2012). Utilising codes assigned to each species based on their known
 taxonomic affinities, the function binds each species in turn to a provided
 BirdTree phylogeny.
+
+BirdTree phylogenies can be sourced from: https://birdtree.org/
 
 The species are grafted onto the tree in a set order provided in the column "
 phylo_id", as certain species need to be grafted onto the tree before other

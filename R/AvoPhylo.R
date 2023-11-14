@@ -2,7 +2,8 @@ utils::globalVariables(c("phylo_id2", "Group",
                          "BLFamilyLatin", "Order",
                          "Clade"))
 
-#' AvoPhylo: Building phylogenies based on AvoTrex extinct bird trait database and BirdTree backbone
+#' AvoPhylo: Building phylogenies based on the AvoTrex extinct bird trait
+#' database and BirdTree backbone
 #' 
 #' @description
 #' Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
@@ -15,10 +16,12 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' geographical location, island endemicity, volancy, body size and standard
 #' external and skeleton morphological measurements for 602 extinct bird
 #' species. The AvoPhylo function provides a pipeline to incorporate the extinct
-#' species from AvoTrex into the "BirdTree" phylogeny of extant birds (Jetz et
+#' species from AvoTrex into the "BirdTree" phylogenies of extant birds (Jetz et
 #' al. 2012). Utilising codes assigned to each species based on their known
 #' taxonomic affinities, the function binds each species in turn to a provided
 #' BirdTree phylogeny.
+#' 
+#' BirdTree phylogenies can be sourced from: https://birdtree.org/
 #' 
 #' The species are grafted onto the tree in a set order provided in the column "
 #' phylo_id", as certain species need to be grafted onto the tree before other
@@ -92,7 +95,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @param Ntree The number of trees to sample from the supplied number of
 #'   BirdTree trees. Value must be greater than the number of supplied trees
 #'   (ctrees)
-#' @param ctrees multiPhylo object containing phylogenies. 
+#' @param ctrees multiPhylo object containing BirdTree phylogenies. 
 #' @param avotrex The AvoTrex extinct species phylogeny database. This database
 #'   contains the information and commands required to graft the extinct species
 #'   on to the BirdTree trees.
