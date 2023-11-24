@@ -56,7 +56,7 @@ BirdTree phylogeny.
 BirdTree phylogenies can be sourced from: https://birdtree.org/
 
 The species are grafted onto the tree in a set order provided in the column "
-phylo_id", as certain species need to be grafted onto the tree before other
+Id_sps", as certain species need to be grafted onto the tree before other
 species. Some species are assigned to groups within the data. These species
 are assigned a code "xS" within the column "phylo_id2". These species groups
 consist of close relatives, whose exact taxonomic relationships are unknown.
