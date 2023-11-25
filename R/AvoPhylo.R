@@ -175,7 +175,7 @@ AvoPhylo <- function(
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
   
-  avotrex$Group <- as.numeric(avotrex$Group)#NA warning fine (just because already NAs in Group)
+  avotrex$Group <- suppressWarnings(as.numeric(avotrex$Group))#NA warning fine (just because already NAs in Group)
   
   #Run the parallel dataprep
   ctreesComplete <- foreach(
