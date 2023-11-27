@@ -10,14 +10,12 @@ The dataset provides instructions to graft extinct bird species from Sayol et al
 }
 \usage{data("AvotrexPhylo")}
 \format{
-  A data frame with 600 observations on the following * variables.
+  A data frame with 605 observations on the following * variables.
   \describe{
     \item{\code{Id_sps}}{a character vector detailing the order in which species are joined}
-    \item{\code{phylo_id}}{a character vector detailing the order in which species are joined}
     \item{\code{phylo_id2}}{a character vector detailing the order in which species are joined and whether a species is part of a group (see details)}
     \item{\code{per_fixed}}{a character vector}
     \item{\code{Group}}{a numeric vector detailing a group code or NA (see details)}
-    \item{\code{tipname}}{a character vector consisting of species names without an underscore.}
     \item{\code{species}}{a character vector detailing species name with an underscore}
     \item{\code{Order}}{a character vector detailing species order}
     \item{\code{Family}}{a character vector detailing species family}

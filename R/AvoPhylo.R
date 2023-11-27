@@ -109,7 +109,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @importFrom doParallel registerDoParallel
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom utils txtProgressBar setTxtProgressBar
-#' @importFrom foreach foreach
+#' @importFrom foreach foreach `%dopar%` `%do%`
 #' @importFrom dplyr filter
 #' @importFrom stringr str_split
 #' @importFrom stats runif
