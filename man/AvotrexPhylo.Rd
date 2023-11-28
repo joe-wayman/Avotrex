@@ -10,7 +10,7 @@ The dataset provides instructions to graft extinct bird species from Sayol et al
 }
 \usage{data("AvotrexPhylo")}
 \format{
-  A data frame with 605 observations on the following * variables.
+  A data frame with 604 observations on the following * variables.
   \describe{
     \item{\code{Id_sps}}{a character vector detailing the order in which species are joined}
     \item{\code{phylo_id2}}{a character vector detailing the order in which species are joined and whether a species is part of a group (see details)}
