@@ -10,7 +10,7 @@ As this is version 1.0.0 of the package, it is possible that there are some bugs
 
 ## Installation
 
-You can install the released version of sars from CRAN with:
+You can install the released version of avotrex from CRAN with:
 
 
 
