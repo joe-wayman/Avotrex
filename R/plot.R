@@ -1,13 +1,36 @@
 
+#tree can be an individual tree of class avophylo, or a list
+#of trees of class multiPhylo (indiv trees of class of avophylo),
+#in the latter case, the first tree is used for plotting
+
 #tips = "extinct", "none" or "all"
 
 # data(BirdTree_tax); tax = BirdTree_tax
 # data(AvotrexPhylo); avotrex = AvotrexPhylo
 # order = "STRIGIFORES"; family = NULL; genus = NULL
 
-library(ggtree)
-library(ggplot2)
-library(treeio)
+#layout = "circular"
+
+
+#' @importFrom ape keep.tip
+#' @importFrom ggtree ggtree geom_tiplab
+#' @export 
+
+
+# library(ggtree)
+# library(ggplot2)
+# library(treeio)
+
+
+# tree = trees; tips = "extinct"; order = NULL
+# family = NULL;
+# genus = NULL;
+# species = NULL;
+# avotrex = AvotrexPhylo;
+# tax = BirdTree_tax;
+# lvls = NULL
+
+#plot(trees, avotrex = AvotrexPhylo, tax = BirdTree_tax)
 
 plot.avophylo <- function(tree, 
                           tips = "extinct",
@@ -15,10 +38,31 @@ plot.avophylo <- function(tree,
                           family = NULL,
                           genus = NULL,
                           species = NULL,
-                          avotrex = NULL,
-                          tax = NULL,
+                          avotrex,
+                          tax,
                           lvls = NULL,
                           ...){
+  
+  
+  if (inherits(tree, "multiPhylo")){
+    if (!inherits(tree[[1]], "avophylo")){
+      stop("Tree objects should be of class 'avophylo'")
+    }
+    if (length(tree) == 1){
+        tree <- tree[[1]]
+    } else {
+      tree <- tree[[1]]
+      message("A list of multiple trees has been provided: the first has been selected for plotting")
+    }
+  } else {
+    if (!inherits(tree, "avophylo")){
+      stop("Tree objects should be of class 'avophylo'")
+    }
+    }#eo if multiPhylo
+  
+  
+  #Revert class to just phylo
+  class(tree) <- "phylo"
   
   #filter out AP species from Jetz (i.e., extinct sp in
   #BirdTree)
@@ -34,10 +78,15 @@ plot.avophylo <- function(tree,
                           "Jetz_Family", "Jetz_Order")
   plot_df1$Status <- "Extant"
   
+  #In case someone selects an extinct genus, family etc,
+  #we need to swap the "Extinct" label in the Jetz columns
+  #with the name from the "Birdlife" columns
   wEx <- which(avotrex[,"Jetz_Order"] == "Extinct")
   avotrex[wEx, "Jetz_Order"] <- 
     avotrex[wEx, "Order"]
-  plot_df2 <- avotrex[, c("species", "Jetz_Order", "Jetz_Family", "Jetz_Genus")]
+  
+  plot_df2 <- avotrex[, c("species", "Jetz_Order", 
+                          "Jetz_Family", "Jetz_Genus")]
   plot_df2$Jetz_Order <- toupper(plot_df2$Jetz_Order) 
   plot_df2$Status <- "Extinct"
   plot_df3 <- rbind(plot_df1, plot_df2)
@@ -84,8 +133,6 @@ plot.avophylo <- function(tree,
   ##########################################################
 
   ##PLOTTING CODE
-  
-  ##INCLUDE AN IF CHECK TO check all plot_df3$species are in tree tip labels
   if(!is.null(order) | !is.null(family) |
      !is.null(genus)){
   }else{
@@ -116,18 +163,19 @@ plot.avophylo <- function(tree,
   }
   
   if(tips == "none"){
-    f <- ggtree(tree2, ...) 
+    f <- ggtree::ggtree(tree2, ...) 
   }
   if(tips == "extinct"){
-    tree2$tip.label[tree2$tip.label %in% plot_df4[plot_df4$Status == "Extant",]$species] <- ""
-    f <- ggtree(tree2, ...) + 
-      geom_tiplab()
+    tree2$tip.label[tree2$tip.label %in% 
+                      plot_df4[plot_df4$Status == "Extant",]$species] <- ""
+    f <- ggtree::ggtree(tree2, ...) + 
+      ggtree::geom_tiplab()
   }
   if(tips == "all"){
-    f <- ggtree(tree2, ...) + 
-      geom_tiplab()
+    f <- ggtree::ggtree(tree2, ...) + 
+      ggtree::geom_tiplab()
   }
   
-  return(f)
+  print(f)
   
 }# eo function

@@ -525,12 +525,17 @@ AvoPhylo <- function(
 
       } #eo for j
       
+      #change class of individual trees to include avophylo
+      z <- class(ctree)
+      class(ctree) <- c("avophylo", z)
+    
       return(ctree)          # Return the tree object
       
     }#eo for each
   
   ## Finish Tree ## 
   class(ctreesComplete) <- "multiPhylo"    # Change the class
+  
   return(ctreesComplete)
   
 }

@@ -19,6 +19,7 @@ Imports:
     doSNOW,
     dplyr,
     foreach,
+    ggtree,
     parallel,
     phytools,
     snow,
