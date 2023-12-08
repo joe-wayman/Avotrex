@@ -52,7 +52,7 @@ species from AvoTrex into the "BirdTree" phylogenies of extant birds (Jetz et
 al. 2012). Utilising codes assigned to each species based on their known
 taxonomic affinities, the function binds each species in turn to a provided
 BirdTree phylogeny. Input phylogenies (i.e., BirdTree trees) must be of class
-'phylo', see \code{\link{ape::phylo}}.
+'phylo', see \code{\link[ape]{phylo}}.
 
 BirdTree phylogenies can be sourced from: https://birdtree.org/
 

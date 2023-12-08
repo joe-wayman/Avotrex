@@ -1,4 +1,5 @@
-
+#' @importFrom grDevices devAskNewPage
+#' @export 
 
 plot.multiAvophylo <- function(x, 
                           tips = "extinct",
@@ -20,13 +21,15 @@ plot.multiAvophylo <- function(x,
     }
   })
   
+  devAskNewPage(TRUE)
+  on.exit(devAskNewPage(FALSE))
   for (i in seq_along(tree)){
     plot.avophylo(x = tree[[i]], tips = tips, 
                   tips_col = tips_col, 
                   order = order, family = family,
                   genus = genus, species = species, 
                   avotrex = avotrex ,
-                  tax = tax, lvls = lvls, ...) 
+                  tax = tax, lvls = lvls, main = "a", ...) 
   }
 }
 

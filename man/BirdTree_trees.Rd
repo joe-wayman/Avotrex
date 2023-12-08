@@ -12,7 +12,7 @@ Five Bird Tree backbone trees obtained from Jetz et al. (2012).
   A large multiPhylo object consisting of five elements. 
 }
 \details{
-%%  ~~ If necessary, more details than the __description__ above ~~
+If necessary, more details than the __description__ above
 }
 \source{
 Jetz, W., Thomas, G., Joy, J. et al. The global diversity of birds in space and time. Nature 491, 444–448 (2012). https://doi.org/10.1038/nature11631
