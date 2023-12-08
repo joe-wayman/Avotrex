@@ -8,7 +8,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @description
 #' Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
 #' 
-#' @usage AvoPhylo(ctrees, avotrex, PER = 0.2, tax, Ntree, n.cores = 1, cluster.ips = NULL)
+#' @usage AvoPhylo(ctrees, avotrex, tax, PER = 0.2, Ntree, n.cores = 1, cluster.ips = NULL)
 #' 
 #' @details
 #' Function to build phylogenies incorporating the extinct species from the
@@ -19,12 +19,13 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' species from AvoTrex into the "BirdTree" phylogenies of extant birds (Jetz et
 #' al. 2012). Utilising codes assigned to each species based on their known
 #' taxonomic affinities, the function binds each species in turn to a provided
-#' BirdTree phylogeny.
+#' BirdTree phylogeny. Input phylogenies (i.e., BirdTree trees) must be of class
+#' 'phylo', see \code{\link{ape::phylo}}.
 #' 
 #' BirdTree phylogenies can be sourced from: https://birdtree.org/
 #' 
-#' The species are grafted onto the tree in a set order provided in the column "
-#' Id_sps", as certain species need to be grafted onto the tree before other
+#' The species are grafted onto the tree in a set order provided in the column
+#' "Id_sps", as certain species need to be grafted onto the tree before other
 #' species. Some species are assigned to groups within the data. These species
 #' are assigned a code "xS" within the column "phylo_id2". These species groups
 #' consist of close relatives, whose exact taxonomic relationships are unknown.
@@ -35,12 +36,17 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' within a group of species, a genus, or a family, and some species groups are
 #' randomised before grafting (see above), it is useful to run the grafting
 #' procedure over a a number of trees to average out the randomisation.
-#' Therefore, the function can be run in parallel using the argument "n.cores".
-#' Note that the function will run on one core as default and if only one tree
-#' is supplied. Trees can also be randomly selected from a number of trees by
-#' giving the function a group of trees using the argument "ctrees" and then
-#' defining a smaller number using "Ntree". If the maximum number of trees is to
-#' be used, "ctrees" and "Ntree" should have the same value.
+#' Therefore, the function can be run in parallel using the argument
+#' \code{n.cores}. Note that the function will run on one core as default and if
+#' only one tree is supplied. Trees can also be randomly selected from a number
+#' of trees by giving the function a group of trees using the argument
+#' \code{ctrees} and then defining a smaller number using \code{Ntree}. If the
+#' maximum number of trees is to be used, \code{Ntree} should equal
+#' \code{length(ctrees)}.
+#' 
+#' If \code{Ntree} > 1, a progress bar will be displayed.
+#' 
+#' 
 #' 
 #' Codes | Full name                   | Definition                                                                          |
 #' ------|-----------------------------|-------------------------------------------------------------------------------------|
@@ -65,25 +71,28 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
 #' from extinctions in the Holocene and Late Pleistocene 
 #' 
-#' @param n.cores Number of cores used to build the phylogeny. Default is one
-#'   (will run with parallel processing)
-#' @param cluster.ips Cluster location. Keep as default. 
-#' @param PER Percentage/fraction for branch truncation based on random grafting
-#'   (see \code{\link{AvoBind}} for more details).
-#' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
-#'   within the package.
-#' @param Ntree The number of trees to sample from the supplied number of
-#'   BirdTree trees. Value must be greater than the number of supplied trees
-#'   (ctrees)
-#' @param ctrees multiPhylo object containing BirdTree phylogenies. 
+#' @param ctrees Either (i) object (of class multiPhylo) containing multiple
+#'   BirdTree phylogenies. Individual trees within the multiPhylo object must be
+#'   of class 'phylo', see the \code{ape} package. Or (ii) an individual tree
+#'   object of class 'phylo'.
 #' @param avotrex The AvoTrex extinct species phylogeny database. This database
 #'   contains the information and commands required to graft the extinct species
 #'   on to the BirdTree trees.
-#' @return The function returns a multiPhylo object consisting of N trees that
-#'   were randomly selected from a supplied number. These trees have all had the
-#'   extinct species from AvoTrex grafted on. For more details on the grafting,
-#'   see: Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
-#'   from extinctions in the Holocene and Late Pleistocene 
+#' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
+#'   within the package.
+#' @param PER Percentage/fraction for branch truncation based on random grafting
+#'   (see \code{\link{AvoBind}} for more details).
+#' @param Ntree The number of trees to sample from the supplied number of
+#'   BirdTree trees (i.e., \code{ctrees}). Value must be greater than the number
+#'   of supplied trees (\code{length(ctrees))}.
+#' @param n.cores Number of cores used to build the phylogeny. Default is one
+#'   (will run with parallel processing)
+#' @param cluster.ips Cluster location. Keep as default. 
+#' @return The function returns an object of class 'avophylo', which is a list
+#'   consisting of N trees (each of class 'phylo') that were randomly selected
+#'   from the supplied number. These trees have all had the extinct species from
+#'   AvoTrex grafted on. For more details on the grafting, see: Sayol et al. (IN
+#'   PREP).
 #' @importFrom parallel makeCluster
 #' @importFrom snow makeSOCKcluster
 #' @importFrom doParallel registerDoParallel
@@ -94,28 +103,26 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @importFrom stringr str_split
 #' @importFrom stats runif
 #' @import ape
-#' @return The imputed tree(s) with the extinct species grafted on. The object is returned as a class 'multiPhylo', the same 
-#' as the input tree(s).
 #' @examples 
 #' # data(BirdTree_trees)
 #' # data(BirdTree_tax)
 #' # data(AvotrexPhylo)
-#' # trees <- AvoPhylo(ctrees = BirdTree_trees, 
-#' # avotrex = AvotrexPhylo, PER = 0.2, tax = BirdTree_tax, 
+#' # trees <- AvoPhylo(ctrees = BirdTree_trees,
+#' # avotrex = AvotrexPhylo, PER = 0.2, tax = BirdTree_tax,
 #' # Ntree = 1, n.cores = 1, cluster.ips = NULL)
 #' @export 
+
 AvoPhylo <- function(
     ctrees,
     avotrex,
-    PER = 0.2,
     tax, 
+    PER = 0.2,
     Ntree,
     n.cores = 1,
     cluster.ips = NULL
     ){
   
-  if (length(ctrees) < Ntree){stop("Error: Number of sampled trees greater than the number of supplied trees.")}
-  
+
   if (!all(avotrex$Type %in% c("AP","RFG","RGG", "RGG2", "RSG", 
                                "RSGG","RSGG2","S","SFG", 
                                "SGG","SGG2","SOG","SSG",
@@ -127,11 +134,30 @@ AvoPhylo <- function(
     stop ("PER must be numeric and >= 0 and <= 1")
   }
   
-  #subset a number of trees you want to run
-  ctrees <- sample(ctrees, Ntree, replace = F)
+  if (!inherits(ctrees, "multiPhylo")){
+   if (!inherits(ctrees, "phylo")){
+     stop("Tree object should be of class 'phylo'")
+   }
+  } else{
+    lapply(ctrees, function(y){
+      if (!inherits(y, "phylo")){
+        stop("Tree objects should be of class 'phylo'")
+      }
+    })
+  }
   
-  if (Ntree == 1 & n.cores > 1){
-    cat("As Ntree == 1, only 1 core will be used\n")
+  #subset a number of trees you want to run
+  if (inherits(ctrees, "phylo")){ #ie one tree not in list
+    if (Ntree != 1){stop("Error: Number of sampled trees greater than the number of supplied trees.")}
+    ctrees <- list(ctrees)
+    class(ctrees) <- "multiPhylo"
+    } else {
+    if (length(ctrees) < Ntree){stop("Error: Number of sampled trees greater than the number of supplied trees.")}
+    ctrees <- sample(ctrees, Ntree, replace = F)
+  }
+  
+  if (Ntree < n.cores){
+    cat(paste0("As Ntree == ",Ntree," only ",Ntree," core(s) will be used\n"))
   }
   
   # Set up the cluster for parallel processing 
@@ -151,9 +177,13 @@ AvoPhylo <- function(
   }
   
   #Set a progress bar to return progress of the foreach loop
+  if (Ntree > 1){
   pb <- txtProgressBar(min = 0, max = Ntree, style = 3)
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
+   } else {
+     opts <- NULL
+   }
   
   avotrex$Group <- suppressWarnings(as.numeric(avotrex$Group))#NA warning fine (just because already NAs in Group)
   
@@ -504,19 +534,15 @@ AvoPhylo <- function(
                          sp_name = ex$species[j])
 
       } #eo for j
-      
+
       #change class of individual trees to include avophylo
-      z <- class(ctree)
-      class(ctree) <- c("avophylo", z)
-    
+      class(ctree) <- c("avophylo", "phylo")
       return(ctree)          # Return the tree object
       
     }#eo for each
-  close(pb)
-  stopCluster("temp.cluster")
-  
+
   ## Finish Tree ## 
-  class(ctreesComplete) <- "multiPhylo"    # Change the class
+  class(ctreesComplete) <- c("multiAvophylo", "multiPhylo")    # Change the class
   
   return(ctreesComplete)
   

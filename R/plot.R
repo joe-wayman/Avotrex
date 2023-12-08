@@ -1,4 +1,36 @@
 
+
+plot.multiAvophylo <- function(x, 
+                          tips = "extinct",
+                          tips_col = NULL,
+                          order = NULL, 
+                          family = NULL,
+                          genus = NULL,
+                          species = NULL,
+                          avotrex,
+                          tax,
+                          lvls = NULL,
+                          ...){
+  
+  tree <- x
+  
+  lapply(tree, function(y){
+    if (!inherits(y, "avophylo")){
+      stop("Tree objects should be of class 'avophylo'")
+    }
+  })
+  
+  for (i in seq_along(tree)){
+    plot.avophylo(x = tree[[i]], tips = tips, 
+                  tips_col = tips_col, 
+                  order = order, family = family,
+                  genus = genus, species = species, 
+                  avotrex = avotrex ,
+                  tax = tax, lvls = lvls, ...) 
+  }
+}
+
+
 #tree can be an individual tree of class avophylo, or a list
 #of trees of class multiPhylo (indiv trees of class of avophylo),
 #in the latter case, the first tree is used for plotting
@@ -29,9 +61,10 @@
 # lvls = NULL
 # 
 
+
 plot.avophylo <- function(x, 
                           tips = "extinct",
-                          tips_col = c("red", "blue"),
+                          tips_col = NULL,
                           order = NULL, 
                           family = NULL,
                           genus = NULL,
@@ -42,27 +75,19 @@ plot.avophylo <- function(x,
                           ...){
   
   tree <- x
-  
-  if (inherits(tree, "multiPhylo")){
-    if (!inherits(tree[[1]], "avophylo")){
-      stop("Tree objects should be of class 'avophylo'")
-    }
-    if (length(tree) == 1){
-        tree <- tree[[1]]
-    } else {
-      tree <- tree[[1]]
-      message("A list of multiple trees has been provided: the first has been selected for plotting")
+
+  if (tips == "all_dif"){
+    if (is.null(tips_col) | length(tips_col) != 2){
+      stop ("'tips_col' should be a vector of length 2 (i.e., 2 colors)")
     }
   } else {
-    if (!inherits(tree, "avophylo")){
-      stop("Tree objects should be of class 'avophylo'")
+    if (!is.null(tips_col)){
+      warning("tips_col only works with tips == 'all_dif', try 'tip.color'")
     }
-    }#eo if multiPhylo
+  }
   
-  
-  #Revert class to just phylo
   class(tree) <- "phylo"
-  
+
   #filter out AP species from Jetz (i.e., extinct sp in
   #BirdTree)
   AP_sp <- avotrex[which(avotrex$Type == "AP"),]$species
