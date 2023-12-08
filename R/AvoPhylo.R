@@ -78,6 +78,8 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' --------------------------------------------------------------------------------------------------------------------------|                                                                                                   
 #' RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected genus from a pre-defined family            |                                                                                                   
 #' --------------------------------------------------------------------------------------------------------------------------|
+#'
+#' @md     
 #'     
 #' @references Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in 
 #' the Holocene and Late Pleistocene
