@@ -3,23 +3,21 @@
 #of trees of class multiPhylo (indiv trees of class of avophylo),
 #in the latter case, the first tree is used for plotting
 
-#tips = "extinct", "none" or "all"
+#tips = "extinct", "none" or "all_same", or "all_dif"
 
-# data(BirdTree_tax); tax = BirdTree_tax
-# data(AvotrexPhylo); avotrex = AvotrexPhylo
-# order = "STRIGIFORES"; family = NULL; genus = NULL
-
-#layout = "circular"
+#species should be a vector of species names
 
 
-#' @importFrom ape keep.tip
-#' @importFrom ggtree ggtree geom_tiplab
+#Note - user will need to play around with plotting window
+#size, and/or export the image, particularly if many tips
+
+
+#' @importFrom ape keep.tip plot.phylo
+#' @importFrom treeio tree_subset
+#' @importFrom graphics par
 #' @export 
 
 
-# library(ggtree)
-# library(ggplot2)
-# library(treeio)
 
 
 # tree = trees; tips = "extinct"; order = NULL
@@ -29,11 +27,11 @@
 # avotrex = AvotrexPhylo;
 # tax = BirdTree_tax;
 # lvls = NULL
+# 
 
-#plot(trees, avotrex = AvotrexPhylo, tax = BirdTree_tax)
-
-plot.avophylo <- function(tree, 
+plot.avophylo <- function(x, 
                           tips = "extinct",
+                          tips_col = c("red", "blue"),
                           order = NULL, 
                           family = NULL,
                           genus = NULL,
@@ -43,6 +41,7 @@ plot.avophylo <- function(tree,
                           lvls = NULL,
                           ...){
   
+  tree <- x
   
   if (inherits(tree, "multiPhylo")){
     if (!inherits(tree[[1]], "avophylo")){
@@ -110,6 +109,11 @@ plot.avophylo <- function(tree,
     
     level <- names(wnull)
     
+    #in case user provides order name in lowercase
+    if (level == "order"){
+      wnull <- toupper(wnull)
+    }
+    
     level2 <- switch(level,
                      "genus" = c("Genus", "Jetz_Genus"),
                      "family" = c("Family", "Jetz_Family"),
@@ -130,14 +134,30 @@ plot.avophylo <- function(tree,
     plot_df4 <- plot_df3[wSub,]
     
   }# eo if null
+  
+  if (!is.null(species)){
+    wnull <- c("order" = order, 
+               "family" = family, "genus" = genus)
+    if (length(wnull) > 0){
+      stop("Only one of 'species', 'order', 'family' or 'genus' should be provided")
+    }
+    if (!is.vector(species) | is.list(species)){
+      stop("'species' should be a vector")
+    }
+    if (!all(species %in% tree$tip.label)){
+      stop("some 'species' not in tree")
+    }
+  }#eo if species
+  
+  
   ##########################################################
 
   ##PLOTTING CODE
-  if(!is.null(order) | !is.null(family) |
-     !is.null(genus)){
-  }else{
+  if(is.null(order) & is.null(family) &
+     is.null(genus)){
     plot_df4 <- plot_df3
   }
+
   
   if(!all(plot_df4$species %in% tree$tip.label)){
     stop("Species selected for plotting not present in provided tree. ")
@@ -155,27 +175,30 @@ plot.avophylo <- function(tree,
       stop("If subsetting on one species, provide the number of levels to go back")
     }
     
-    tree2 <- tree_subset(tree,
+    tree2 <- treeio::tree_subset(tree,
                          species,
                          levels_back = lvls)
   }else{
     tree2 <- tree
   }
   
-  if(tips == "none"){
-    f <- ggtree::ggtree(tree2, ...) 
-  }
-  if(tips == "extinct"){
-    tree2$tip.label[tree2$tip.label %in% 
+  par(xpd = NA)
+  if (tips == "none"){
+    ape::plot.phylo(tree2, show.tip.label = FALSE, ...)
+  } else if (tips == "extinct"){
+    tree2$tip.label[tree2$tip.label %in%
                       plot_df4[plot_df4$Status == "Extant",]$species] <- ""
-    f <- ggtree::ggtree(tree2, ...) + 
-      ggtree::geom_tiplab()
-  }
-  if(tips == "all"){
-    f <- ggtree::ggtree(tree2, ...) + 
-      ggtree::geom_tiplab()
-  }
-  
-  print(f)
-  
+    ape::plot.phylo(tree2, ...)
+    } else if (tips == "all_same"){
+    ape::plot.phylo(tree2, ...)
+    } else if (tips == "all_dif"){
+      tl <- tree2$tip.label
+      ml <- match(tl, plot_df4$species)
+      tc <- plot_df4$Status[ml]
+      tc2 <- ifelse(tc == "Extinct", tips_col[1], tips_col[2])
+      ape::plot.phylo(tree2, tip.color = tc2, ...)
+    } else {
+    stop("'tips should be one of 'none', 'extinct', 'all_same' or 'all_dif'")
+    }
+
 }# eo function

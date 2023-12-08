@@ -19,10 +19,10 @@ Imports:
     doSNOW,
     dplyr,
     foreach,
-    ggtree,
     parallel,
     phytools,
     snow,
     stringr,
+    treeio,
     utils
 License: MIT + file LICENSE
