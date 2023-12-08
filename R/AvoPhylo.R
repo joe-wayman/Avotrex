@@ -29,7 +29,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' are assigned a code "xS" within the column "phylo_id2". These species groups
 #' consist of close relatives, whose exact taxonomic relationships are unknown.
 #' Therefore, the order in which they are joined is randomised. See Sayol et al.
-#' and Matthews et al. for furter details.
+#' and Matthews et al. for further details.
 #' 
 #' As some of the codes (see table below) randomly place the given species
 #' within a group of species, a genus, or a family, and some species groups are
@@ -43,7 +43,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' be used, "ctrees" and "Ntree" should have the same value.
 #' 
 #' Codes | Full name                   | Definition                                                                          |
-#' :------:|:-----------------------------:|-------------------------------------------------------------------------------------|
+#' ------|-----------------------------|-------------------------------------------------------------------------------------|
 #' S     | Sister                      | Grafted as a sister to a known extant or extinct species already in the tree        |
 #' SSG   | Sister species group        | Grafted as a sister to a group of extant and/or extinct species already in the tree |
 #' SGG   | Sister genus group          | Grafted as a sister to an entire extant or extinct genus (i.e., for the first grafted representative of an extinct genus)       |
@@ -127,7 +127,7 @@ AvoPhylo <- function(
     stop ("PER must be numeric and >= 0 and <= 1")
   }
   
-  #subset a number you want to test
+  #subset a number of trees you want to run
   ctrees <- sample(ctrees, Ntree, replace = F)
   
   if (Ntree == 1 & n.cores > 1){
@@ -151,7 +151,7 @@ AvoPhylo <- function(
   }
   
   #Set a progress bar to return progress of the foreach loop
-  pb <- txtProgressBar(min = 0, max = length(Ntree), style = 3)
+  pb <- txtProgressBar(min = 0, max = Ntree, style = 3)
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
   
@@ -180,9 +180,9 @@ AvoPhylo <- function(
       groups <- as.numeric(unique(shuff$Group))
       groups <- sort(groups)
       
-      for(i in 1:length(groups)){
+      for(p in 1:length(groups)){
         
-        shuff2 <- dplyr::filter(shuff, Group == groups[i])
+        shuff2 <- dplyr::filter(shuff, Group == groups[p])
         shuff2 <-  shuff2[sample(1:nrow(shuff2)), ]
         ex <- rbind(ex, shuff2)
         
@@ -512,6 +512,8 @@ AvoPhylo <- function(
       return(ctree)          # Return the tree object
       
     }#eo for each
+  close(pb)
+  stopCluster("temp.cluster")
   
   ## Finish Tree ## 
   class(ctreesComplete) <- "multiPhylo"    # Change the class
