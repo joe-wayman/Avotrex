@@ -31,12 +31,12 @@ BirdTree trees. Value must be greater than the number of supplied trees
 }
 \value{
 The function returns a multiPhylo object consisting of N trees that
-  were randomly selected from a supplied number. These trees have all had the
-  extinct species from AvoTrex grafted on. For more details on the grafting,
-  see: Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
-  from extinctions in the Holocene and Late Pleistocene
+were randomly selected from a supplied number. These trees have all had the
+extinct species from AvoTrex grafted on. For more details on the grafting,
+see: Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity
+from extinctions in the Holocene and Late Pleistocene
 
-The imputed tree(s) with the extinct species grafted on. The object is returned as a class 'multiPhylo', the same 
+The imputed tree(s) with the extinct species grafted on. The object is returned as a class 'multiPhylo', the same
 as the input tree(s).
 }
 \description{
@@ -72,44 +72,21 @@ Note that the function will run on one core as default and if only one tree
 is supplied. Trees can also be randomly selected from a number of trees by
 giving the function a group of trees using the argument "ctrees" and then
 defining a smaller number using "Ntree". If the maximum number of trees is to
-be used, "ctrees" and "Ntree" should have the same value.
-
-Codes | Full name                   | Definition                                                                          |
---------------------------------------------------------------------------------------------------------------------------|
-S     | Sister                      | Grafted as a sister to a known extant or extinct species already in the tree        |
---------------------------------------------------------------------------------------------------------------------------|
-SSG   | Sister species group        | Grafted as a sister to a group of extant and/or extinct species already in the tree |
---------------------------------------------------------------------------------------------------------------------------|
-SGG   | Sister genus group          | Grafted as a sister to an entire extant or extinct genus (i.e., for the first       |
-      |                             | grafted representative of an extinct genus)                                         |
---------------------------------------------------------------------------------------------------------------------------|      
-SGG2  | Sister genus group 2        | Grafted as sister to multiple genera. This was for when a species was sister to a   |
-      |                             | subfamily or some other large specific clade                                        |
---------------------------------------------------------------------------------------------------------------------------|    
-SFG   | Sister family group         | Grafted as a sister to an entire extant or extinct family already present in the    |
-      |                             | tree (i.e., for the first grafted representative of an extinct family)              |
---------------------------------------------------------------------------------------------------------------------------|     
-SOG   | Sister order group          | Grafted as a sister to an entire order already present in the tree (i.e., for the   |
-      |                             | first grafted representative of an extinct order)                                   |
---------------------------------------------------------------------------------------------------------------------------|     
-RSG   | Random species group        | Grafted to a randomly selected species from a pre-defined group of species (i.e.,   | 
-      |                             | from which is believed to have close affinities                                     |
---------------------------------------------------------------------------------------------------------------------------|     
-RGG   | Random genus group          | Grafted to a randomly selected species from a given genus. For example, if an       |
-      |                             | extinct species was believed to be a finch derived from a European finch species,   |
-      |                             | but the exact sister species is unknown.                                            | 
---------------------------------------------------------------------------------------------------------------------------|                                     
-RGG2  | Random genus group 2        | Grafted to a randomly selected species from a group of genera (e.g. when all that is| 
-      |                             | known is that the species is from a specific subfamily). Currently not used in the  |
-      |                             | database, but the relevant functionality has been kept in the R script, as it could |
-      |                             | be useful for future studies                                                        | 
---------------------------------------------------------------------------------------------------------------------------|                       
-RFG   | Random family group         | Grafted to a randomly selected species from a given family                          |  
---------------------------------------------------------------------------------------------------------------------------|                                                                                                
-RSGG  | Random sister genus group   | Grafted as sister to a randomly selected genus from a pre-defined group of genera   | 
---------------------------------------------------------------------------------------------------------------------------|                                                                                                   
-RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected genus from a pre-defined family            |                                                                                                   
---------------------------------------------------------------------------------------------------------------------------|
+be used, "ctrees" and "Ntree" should have the same value.\tabular{ccl}{
+   Codes \tab Full name \tab Definition \cr
+   S \tab Sister \tab Grafted as a sister to a known extant or extinct species already in the tree \cr
+   SSG \tab Sister species group \tab Grafted as a sister to a group of extant and/or extinct species already in the tree \cr
+   SGG \tab Sister genus group \tab Grafted as a sister to an entire extant or extinct genus (i.e., for the first grafted representative of an extinct genus) \cr
+   SGG2 \tab Sister genus group 2 \tab Grafted as sister to multiple genera. This was for when a species was sister to a subfamily or some other large specific clade \cr
+   SFG \tab Sister family group \tab Grafted as a sister to an entire extant or extinct family already present in the  tree (i.e., for the first grafted representative of an extinct family) \cr
+   SOG \tab Sister order group \tab Grafted as a sister to an entire order already present in the tree (i.e., for the first grafted representative of an extinct order) \cr
+   RSG \tab Random species group \tab Grafted to a randomly selected species from a pre-defined group of species (i.e., from which is believed to have close affinities \cr
+   RGG \tab Random genus group \tab Grafted to a randomly selected species from a given genus. For example, if an  extinct species was believed to be a finch derived from a European finch species, but the exact sister species is unknown. \cr
+   RGG2 \tab Random genus group 2 \tab Grafted to a randomly selected species from a group of genera (e.g. when all that is known is that the species is from a specific subfamily). Currently not used in the database, but the relevant functionality has been kept in the R script, as it could be useful for future studies. \cr
+   RFG \tab Random family group \tab Grafted to a randomly selected species from a given family \cr
+   RSGG \tab Random sister genus group \tab Grafted as sister to a randomly selected genus from a pre-defined group of genera \cr
+   RSGG2 \tab Random sister genus group 2 \tab Grafted as sister to a randomly selected genus from a pre-defined family \cr
+}
 }
 \examples{
 # data(BirdTree_trees)
@@ -120,9 +97,9 @@ RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected g
 # Ntree = 1, n.cores = 1, cluster.ips = NULL)
 }
 \references{
-Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in 
+Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in
 the Holocene and Late Pleistocene
 
-Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity 
+Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity
 from extinctions in the Holocene and Late Pleistocene
 }
