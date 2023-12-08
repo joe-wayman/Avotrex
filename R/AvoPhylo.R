@@ -43,41 +43,19 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' be used, "ctrees" and "Ntree" should have the same value.
 #' 
 #' Codes | Full name                   | Definition                                                                          |
-#' --------------------------------------------------------------------------------------------------------------------------|
+#' :------:|:-----------------------------:|-------------------------------------------------------------------------------------|
 #' S     | Sister                      | Grafted as a sister to a known extant or extinct species already in the tree        |
-#' --------------------------------------------------------------------------------------------------------------------------|
 #' SSG   | Sister species group        | Grafted as a sister to a group of extant and/or extinct species already in the tree |
-#' --------------------------------------------------------------------------------------------------------------------------|
-#' SGG   | Sister genus group          | Grafted as a sister to an entire extant or extinct genus (i.e., for the first       |
-#'       |                             | grafted representative of an extinct genus)                                         |
-#' --------------------------------------------------------------------------------------------------------------------------|      
-#' SGG2  | Sister genus group 2        | Grafted as sister to multiple genera. This was for when a species was sister to a   |
-#'       |                             | subfamily or some other large specific clade                                        |
-#' --------------------------------------------------------------------------------------------------------------------------|    
-#' SFG   | Sister family group         | Grafted as a sister to an entire extant or extinct family already present in the    |
-#'       |                             | tree (i.e., for the first grafted representative of an extinct family)              |
-#' --------------------------------------------------------------------------------------------------------------------------|     
-#' SOG   | Sister order group          | Grafted as a sister to an entire order already present in the tree (i.e., for the   |
-#'       |                             | first grafted representative of an extinct order)                                   |
-#' --------------------------------------------------------------------------------------------------------------------------|     
-#' RSG   | Random species group        | Grafted to a randomly selected species from a pre-defined group of species (i.e.,   | 
-#'       |                             | from which is believed to have close affinities                                     |
-#' --------------------------------------------------------------------------------------------------------------------------|     
-#' RGG   | Random genus group          | Grafted to a randomly selected species from a given genus. For example, if an       |
-#'       |                             | extinct species was believed to be a finch derived from a European finch species,   |
-#'       |                             | but the exact sister species is unknown.                                            | 
-#' --------------------------------------------------------------------------------------------------------------------------|                                     
-#' RGG2  | Random genus group 2        | Grafted to a randomly selected species from a group of genera (e.g. when all that is| 
-#'       |                             | known is that the species is from a specific subfamily). Currently not used in the  |
-#'       |                             | database, but the relevant functionality has been kept in the R script, as it could |
-#'       |                             | be useful for future studies                                                        | 
-#' --------------------------------------------------------------------------------------------------------------------------|                       
+#' SGG   | Sister genus group          | Grafted as a sister to an entire extant or extinct genus (i.e., for the first grafted representative of an extinct genus)       |
+#' SGG2  | Sister genus group 2        | Grafted as sister to multiple genera. This was for when a species was sister to a subfamily or some other large specific clade  |
+#' SFG   | Sister family group         | Grafted as a sister to an entire extant or extinct family already present in the  tree (i.e., for the first grafted representative of an extinct family)    |
+#' SOG   | Sister order group          | Grafted as a sister to an entire order already present in the tree (i.e., for the first grafted representative of an extinct order)   |
+#' RSG   | Random species group        | Grafted to a randomly selected species from a pre-defined group of species (i.e., from which is believed to have close affinities    | 
+#' RGG   | Random genus group          | Grafted to a randomly selected species from a given genus. For example, if an  extinct species was believed to be a finch derived from a European finch species, but the exact sister species is unknown.          |
+#' RGG2  | Random genus group 2        | Grafted to a randomly selected species from a group of genera (e.g. when all that is known is that the species is from a specific subfamily). Currently not used in the database, but the relevant functionality has been kept in the R script, as it could be useful for future studies. | 
 #' RFG   | Random family group         | Grafted to a randomly selected species from a given family                          |  
-#' --------------------------------------------------------------------------------------------------------------------------|                                                                                                
 #' RSGG  | Random sister genus group   | Grafted as sister to a randomly selected genus from a pre-defined group of genera   | 
-#' --------------------------------------------------------------------------------------------------------------------------|                                                                                                   
 #' RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected genus from a pre-defined family            |                                                                                                   
-#' --------------------------------------------------------------------------------------------------------------------------|
 #'
 #' @md     
 #'     
