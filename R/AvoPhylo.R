@@ -8,7 +8,8 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @description
 #' Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
 #' 
-#' @usage AvoPhylo(ctrees, avotrex, tax, PER = 0.2, Ntree, n.cores = 1, cluster.ips = NULL)
+#' @usage AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, Ntree,
+#'   n.cores = 1, cluster.ips = NULL)
 #' 
 #' @details
 #' Function to build phylogenies incorporating the extinct species from the
@@ -81,7 +82,13 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
 #'   within the package.
 #' @param PER Percentage/fraction for branch truncation based on random grafting
-#'   (see \code{\link{AvoBind}} for more details).
+#'   (see \code{\link{AvoBind}} for more details). Can be left at the default
+#'   value.
+#' @param PER_FIXED Point along a branch (expressed as a fraction of the branch
+#'   length, rootward) to graft the species in the phylogeny database
+#'   (\code{avotrex} argument) which are set to TRUE in the per_fixed column (to
+#'   reduce very short branch lengths) (see \code{\link{AvoBind}} for more
+#'   details). Can be left at the default value.
 #' @param Ntree The number of trees to sample from the supplied number of
 #'   BirdTree trees (i.e., \code{ctrees}). Value must be greater than the number
 #'   of supplied trees (\code{length(ctrees))}.
@@ -108,8 +115,8 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' # data(BirdTree_tax)
 #' # data(AvotrexPhylo)
 #' # trees <- AvoPhylo(ctrees = BirdTree_trees,
-#' # avotrex = AvotrexPhylo, PER = 0.2, tax = BirdTree_tax,
-#' # Ntree = 1, n.cores = 1, cluster.ips = NULL)
+#' # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
+#' # tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
 #' @export 
 
 AvoPhylo <- function(
@@ -117,6 +124,7 @@ AvoPhylo <- function(
     avotrex,
     tax, 
     PER = 0.2,
+    PER_FIXED = 0.75,
     Ntree,
     n.cores = 1,
     cluster.ips = NULL
@@ -227,11 +235,12 @@ AvoPhylo <- function(
         #per_fixed values.
         #For the clades with many closely related extinct species,
         #they have a per_fixed value of TRUE in the database. For these,
-        #set per to 0.75 to try to avoid really short terminal branches
+        #set per to 0.75 (or PER_FIXED provided value) to try to avoid 
+        #really short terminal branches
         #(although sometimes this is forced due to BirdTree typology)
         per_val <- ex$per_fixed[j]
         if (per_val){
-          PER_VAL <- 0.75
+          PER_VAL <- PER_FIXED
           pfv <- TRUE
         } else {
           PER_VAL <- PER

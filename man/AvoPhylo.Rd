@@ -5,7 +5,8 @@
 \title{AvoPhylo: Building phylogenies based on the AvoTrex extinct bird trait
 database and BirdTree backbone}
 \usage{
-AvoPhylo(ctrees, avotrex, tax, PER = 0.2, Ntree, n.cores = 1, cluster.ips = NULL)
+AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, Ntree,
+  n.cores = 1, cluster.ips = NULL)
 }
 \arguments{
 \item{ctrees}{Either (i) object (of class multiPhylo) containing multiple
@@ -21,7 +22,14 @@ on to the BirdTree trees.}
 within the package.}
 
 \item{PER}{Percentage/fraction for branch truncation based on random grafting
-(see \code{\link{AvoBind}} for more details).}
+(see \code{\link{AvoBind}} for more details). Can be left at the default
+value.}
+
+\item{PER_FIXED}{Point along a branch (expressed as a fraction of the branch
+length, rootward) to graft the species in the phylogeny database
+(\code{avotrex} argument) which are set to TRUE in the per_fixed column (to
+reduce very short branch lengths) (see \code{\link{AvoBind}} for more
+details). Can be left at the default value.}
 
 \item{Ntree}{The number of trees to sample from the supplied number of
 BirdTree trees (i.e., \code{ctrees}). Value must be greater than the number
@@ -97,8 +105,8 @@ If \code{Ntree} > 1, a progress bar will be displayed.\tabular{lll}{
 # data(BirdTree_tax)
 # data(AvotrexPhylo)
 # trees <- AvoPhylo(ctrees = BirdTree_trees,
-# avotrex = AvotrexPhylo, PER = 0.2, tax = BirdTree_tax,
-# Ntree = 1, n.cores = 1, cluster.ips = NULL)
+# avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
+# tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
 }
 \references{
 Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in
