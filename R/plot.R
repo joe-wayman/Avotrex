@@ -43,7 +43,7 @@ plot.multiAvophylo <- function(x,
 #species should be a vector of species names
 
 
-#Note - user will need to play around with plotting window
+##Note - user will need to play around with plotting window
 #size, and/or export the image, particularly if many tips
 
 
