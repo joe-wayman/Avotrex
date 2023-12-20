@@ -26,6 +26,6 @@ Imports:
     phytools,
     snow,
     stringr,
-    treeio,
+    tidytree (>= 0.4.6),
     utils
 License: MIT + file LICENSE
