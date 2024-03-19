@@ -48,7 +48,7 @@ plot.multiAvophylo <- function(x,
 
 
 #' @importFrom ape keep.tip plot.phylo
-#' @importFrom treeio tree_subset
+#' @importFrom tidytree tree_subset
 #' @importFrom graphics par
 #' @export 
 
@@ -203,7 +203,7 @@ plot.avophylo <- function(x,
       stop("If subsetting on one species, provide the number of levels to go back")
     }
     
-    tree2 <- treeio::tree_subset(tree,
+    tree2 <- tidytree::tree_subset(tree,
                          species,
                          levels_back = lvls)
   }else{

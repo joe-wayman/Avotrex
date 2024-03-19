@@ -14,6 +14,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 4.0.0)
+biocViews:
 LazyData: true
 Imports: 
     ape,
@@ -25,6 +26,6 @@ Imports:
     phytools,
     snow,
     stringr,
-    treeio,
+    tidytree (>= 0.4.6),
     utils
 License: MIT + file LICENSE
