@@ -184,14 +184,20 @@ AvoPhylo <- function(
     doSNOW::registerDoSNOW(temp.cluster)
   }
   
-  #Set a progress bar to return progress of the foreach loop
+  #Set a progress bar to return progress of the foreach loop: for one core this is updated within the loop
+  #for multiple cores it is set using .options.snow
   if (Ntree > 1){
-  pb <- txtProgressBar(min = 0, max = Ntree, style = 3)
-  progress <- function(n) setTxtProgressBar(pb, n)
-  opts <- list(progress=progress)
-   } else {
-     opts <- NULL
-   }
+    if(n.cores == 1){
+      opts <- NULL
+      pb <- txtProgressBar(min = 0, max = Ntree, style = 3)
+    }else{
+      pb <- txtProgressBar(min = 0, max = Ntree, style = 3)
+      progress <- function(n) setTxtProgressBar(pb, n)
+      opts <- list(progress=progress)
+    }
+  } else {
+    opts <- NULL
+  }
   
   avotrex$Group <- suppressWarnings(as.numeric(avotrex$Group))#NA warning fine (just because already NAs in Group)
   
@@ -544,6 +550,11 @@ AvoPhylo <- function(
 
       } #eo for j
 
+      # Update the progress bar if using one core
+      if(Ntree > 1 & n.cores == 1){
+        setTxtProgressBar(pb, i)
+      }
+      
       #change class of individual trees to include avophylo
       class(ctree) <- c("avophylo", "phylo")
       return(ctree)          # Return the tree object
