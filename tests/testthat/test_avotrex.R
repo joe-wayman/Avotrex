@@ -1,5 +1,6 @@
 context("avotrex tests")
 library(avotrex)
+library(ape)
 
 test_that("Main function errors correctly", {
 
@@ -52,6 +53,8 @@ test_that("Output makes sense: 1 input tree", {
                     cluster.ips = NULL)
 
   expect_true(is.list(trees))
+  
+  expect_true(is.ultrametric(trees))
 
   expect_is(trees, c("multiAvophylo",
                                 "multiPhylo"))
@@ -87,6 +90,9 @@ test_that("Output makes sense: > 1 input tree", {
                     cluster.ips = NULL)
 
   expect_true(is.list(trees2))
+  
+  z <- sapply(trees2, is.ultrametric)
+  expect_true(all(z))
 
   expect_is(trees2, c("multiAvophylo",
                      "multiPhylo"))
