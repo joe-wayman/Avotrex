@@ -1,6 +1,55 @@
+#' Plot Model Fits for an 'multiAvophylo' Object
+#'
+#' @description S3 method for class 'multiAvophylo'. See the
+#'   \code{\link{plot.avophylo}} documentation for more
+#'   information.
+#'   
+#'   Plots individual trees in turn (with the user required to
+#'   press 'enter' to move to the next plot).
+#' @param x An object of class 'avophylo'.
+#' @param tips What tip labels to present. Can be one of
+#'   "extinct" (just tip labels of extinct species), "none" (no
+#'   tip labels) or "all_same" (show all labels, with same colour
+#'   labels for all species), or "all_dif" (show all labels, with
+#'   different colour labels for extant and extinct species).
+#'   The latter needs to be used in combination with the
+#'   \code{tips_col} argument.
+#' @param tips_col Colour of tip labels. If \code{tips =
+#'   "all_dif"} this needs to be a vector of length two, with the
+#'   first value being the colour for extinct species, and the
+#'   second for extant species.
+#' @param order Prune the tree to only show a specific order
+#'   (should be a character vector of length = 1). Taxonomy
+#'   follows BirdTree, see the \code{data(BirdTree_taxa)} file.
+#'   For extinct order names, see the \code{data(AvotrexPhylo)}
+#'   file.
+#' @param family As for \code{order}, but for families.
+#' @param genus As for \code{order}, but for genera.
+#' @param species Prune the tree to only show a specific set of
+#'   species. Should be a vector of at least length = 1. If only
+#'   a single species name is provided, the \code{lvls} argument
+#'   also needs to be provided.
+#' @param lvls If \code{species} is just a single species, how
+#'   many levels back (rootward) should be plotted. Uses the
+#'   \code{tidytree::tree_subset} function (see help
+#'   documentation of that function for further info).
+#' @param avotrex The Avotrex phylo dataset used to generate the
+#'   trees. For most use cases, this will have been loaded using
+#'   \code{data(AvotrexPhylo)}.
+#' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv.
+#'   Supplied as data within the package.
+#' @param \dots Other plotting arguments from the ape package's
+#'   \link[ape]{plot.phylo} can be provided.
 #' @importFrom grDevices devAskNewPage
-#' @export 
-
+#' @examples
+#' #See the plot.avophylo documentation for further examples
+#' data(treesEx)
+#' #family (plot all three trees this time)
+#' plot(treesEx, avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      family = "Threskiornithidae", tips = "extinct",
+#'      tip.color = "red", cex = 0.5)
+#' @export
+ 
 plot.multiAvophylo <- function(x, 
                           tips = "extinct",
                           tips_col = NULL,
@@ -29,41 +78,131 @@ plot.multiAvophylo <- function(x,
                   order = order, family = family,
                   genus = genus, species = species, 
                   avotrex = avotrex ,
-                  tax = tax, lvls = lvls, main = "a", ...) 
+                  tax = tax, lvls = lvls, ...) 
   }
 }
 
 
-#tree can be an individual tree of class avophylo, or a list
-#of trees of class multiPhylo (indiv trees of class of avophylo),
-#in the latter case, the first tree is used for plotting
-
-#tips = "extinct", "none" or "all_same", or "all_dif"
-
-#species should be a vector of species names
 
 
-##Note - user will need to play around with plotting window
-#size, and/or export the image, particularly if many tips
-
-
+#' Plot Model Fits for an 'avophylo' Object
+#'
+#' @description S3 method for class 'avophylo'.
+#'   \code{plot.avophylo} creates plots for objects of class
+#'   'avophylo'. The exact plot(s) constructed depends on the
+#'   argument values provided (see examples below and also the
+#'   package vignette). The function uses the ape package's
+#'   \link[ape]{plot.phylo} and can take any argument from that
+#'   function (e.g. the \code{type} argument).
+#' 
+#'   If \code{\link{AvoPhylo}} is used to produce a list of trees
+#'   of class 'multiAvophylo', then \code{plot.multiAvophylo} is
+#'   first called. This plots individual trees in turn (with the
+#'   user required to press 'enter' to move to the next plot).
+#'
+#'   The user will need to play around with plotting
+#'   window size, and/or export the image, particularly if many
+#'   tips are included.
+#'   
+#'   Note - if using the \code{lvls} argument, a warning is
+#'   provided. This comes from the \code{tidytree::tree_subset}
+#'   function and appears to be a bug (but the plot should be
+#'   checked for sense).
+#'
+#' @param x An object of class 'avophylo'.
+#' @param tips What tip labels to present. Can be one of
+#'   "extinct" (just tip labels of extinct species), "none" (no
+#'   tip labels) or "all_same" (show all labels, with same colour
+#'   labels for all species), or "all_dif" (show all labels, with
+#'   different colour labels for extant and extinct species).
+#'   The latter needs to be used in combination with the
+#'   \code{tips_col} argument.
+#' @param tips_col Colour of tip labels. If \code{tips =
+#'   "all_dif"} this needs to be a vector of length two, with the
+#'   first value being the colour for extinct species, and the
+#'   second for extant species.
+#' @param order Prune the tree to only show a specific order
+#'   (should be a character vector of length = 1). Taxonomy
+#'   follows BirdTree, see the \code{data(BirdTree_taxa)} file.
+#'   For extinct order names, see the \code{data(AvotrexPhylo)}
+#'   file.
+#' @param family As for \code{order}, but for families.
+#' @param genus As for \code{order}, but for genera.
+#' @param species Prune the tree to only show a specific set of
+#'   species. Should be a vector of at least length = 1. If only
+#'   a single species name is provided, the \code{lvls} argument
+#'   also needs to be provided.
+#' @param lvls If \code{species} is just a single species, how
+#'   many levels back (rootward) should be plotted. Uses the
+#'   \code{tidytree::tree_subset} function (see help
+#'   documentation of that function for further info).
+#' @param avotrex The Avotrex phylo dataset used to generate the
+#'   trees. For most use cases, this will have been loaded using
+#'   \code{data(AvotrexPhylo)}.
+#' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv.
+#'   Supplied as data within the package.
+#' @param \dots Other plotting arguments from the ape package's
+#'   \link[ape]{plot.phylo} can be provided.
 #' @importFrom ape keep.tip plot.phylo
 #' @importFrom tidytree tree_subset
 #' @importFrom graphics par
-#' @export 
-
-
-
-
-# tree = trees; tips = "extinct"; order = NULL
-# family = NULL;
-# genus = NULL;
-# species = NULL;
-# avotrex = AvotrexPhylo;
-# tax = BirdTree_tax;
-# lvls = NULL
-# 
-
+#' @examples
+#' # Generate a set of trees
+#' # data(BirdTree_trees)
+#' # data(BirdTree_tax)
+#' # data(AvotrexPhylo)
+#' # trees <- AvoPhylo(ctrees = BirdTree_trees,
+#' # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
+#' # tax = BirdTree_tax, Ntree = 3, n.cores = 3, 
+#' # cluster.ips = NULL)
+#' 
+#' #For here, we can load in an example set of three trees 
+#' #generated using the above code
+#' 
+#' data(treesEx)
+#' 
+#' #order (owls) - just show extinct tip names (in red) and using
+#' #a fan plot
+#' plot(treesEx[[1]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      order = "Strigiformes", tips = "extinct",
+#'      type = "fan", tip.color = "red", cex = 0.4)
+#' 
+#' #family (plot all three trees this time)
+#' plot(treesEx, avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      family = "Threskiornithidae", tips = "extinct",
+#'      tip.color = "red", cex = 0.5)
+#' 
+#' #genus - cladogram plot
+#' plot(treesEx[[1]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      genus = "Aplonis", tips = "extinct",
+#'      type = "cladogram",
+#'      tip.color = "red", cex = 0.5)
+#' 
+#' #species (& show all tip names in same colour)
+#' species2 <- c("Anas_itchtucknee", "Anas_sp_VitiLevu",
+#'               "Anas_platyrhynchos", "Ara_tricolor")
+#' 
+#' plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      species = species2, tips = "all_same",
+#'      type = "cladogram",
+#'      tip.color = "blue", cex = 0.5)
+#' 
+#' #same as previous, but extinct and extant diff colours
+#' plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      species = species2,
+#'      cex = 0.5, tips = "all_dif",
+#'      tips_col = c("red", "darkgreen"),
+#'      type = "cladogram")
+#' 
+#' ##single species 2 levels back
+#' plot(treesEx[[3]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#'      species = "Ara_tricolor",
+#'      tips = "all_dif",
+#'      tips_col = c("red", "darkgreen"),
+#'      lvls = 2,
+#'      type = "phylogram",
+#'      cex = 0.6)
+#' @export
 
 plot.avophylo <- function(x, 
                           tips = "extinct",

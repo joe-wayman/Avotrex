@@ -4,4 +4,5 @@ bibentry(,
   bibtype      = "Article",
   author       = "Ferran Sayol, Joseph P. Wayman, Paul Dufour, Thomas E. Martin, Julian P. Hume, Maria Jørgensen, Natàlia Martínez, Ariadna Sanglas, Filipa C. Soares, Rob Cooke, Chase D. Mendenhall, Jay Margolis, Juan Carlos Illera, Eva Benavides, Oriol Lapiedra, Kostas A. Triantis, Alex L. Pigot, Joseph A. Tobias, Søren Faurby, Thomas J. Matthews",
   title        = "AVOTREX: A global dataset of extinct birds and their traits",
-  journal      = "In review")
+  journal      = "In review",
+  year      = "2024")

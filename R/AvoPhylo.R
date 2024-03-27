@@ -47,6 +47,9 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' 
 #' If \code{Ntree} > 1, a progress bar will be displayed.
 #' 
+#' A variety of different plotting options are available, see
+#' the \code{\link{plot.avophylo}} documentation.
+#' 
 #' 
 #' 
 #' Codes | Full name                   | Definition                                                                          |
@@ -117,6 +120,9 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' # trees <- AvoPhylo(ctrees = BirdTree_trees,
 #' # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
 #' # tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+#' 
+#' #See the plot.avophylo documentation for the different available
+#' #plotting options.
 #' @export 
 
 AvoPhylo <- function(

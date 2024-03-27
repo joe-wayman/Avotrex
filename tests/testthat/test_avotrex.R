@@ -111,7 +111,40 @@ test_that("Output makes sense: > 1 input tree", {
 
   ##Checking plotting functions
   
-  # plot(trees2[[1]],
-  #      avotrex = AvotrexPhylo,
-  #      tax = BirdTree_tax)
+  expect_no_error(plot(trees2[[1]],
+                       avotrex = AvotrexPhylo, 
+                       tax = BirdTree_tax,
+       genus = "Aplonis", tips = "extinct",
+       type = "cladogram",
+       tip.color = "red", cex = 0.5))
+
+  expect_no_error(plot(trees2[[1]],
+                       avotrex = AvotrexPhylo, 
+                       tax = BirdTree_tax,
+                       tips = "none"))
+  
+  species2 <- c("Anas_itchtucknee", "Anas_sp_VitiLevu",
+                "Anas_platyrhynchos", "Ara_tricolor")
+  
+  expect_no_error(plot(trees2[[2]], 
+                       avotrex = AvotrexPhylo, 
+       tax = BirdTree_tax,
+       species = species2, tips = "all_same",
+       type = "cladogram",
+       tip.color = "blue", cex = 0.5))
+  
+  expect_no_error(plot(trees2[1:2],
+                       avotrex = AvotrexPhylo, 
+                       tax = BirdTree_tax,
+                       family = "Threskiornithidae", 
+                       tips = "extinct",
+                       tip.color = "red", 
+                       cex = 0.5))
+  
+  expect_error(plot(trees2[[2]], 
+                    avotrex = AvotrexPhylo, 
+                    tax = BirdTree_tax,
+                    species = species2, 
+                    tips = "all_diff"))
+
 })

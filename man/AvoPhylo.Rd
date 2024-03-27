@@ -84,7 +84,10 @@ of trees by giving the function a group of trees using the argument
 maximum number of trees is to be used, \code{Ntree} should equal
 \code{length(ctrees)}.
 
-If \code{Ntree} > 1, a progress bar will be displayed.\tabular{lll}{
+If \code{Ntree} > 1, a progress bar will be displayed.
+
+A variety of different plotting options are available, see
+the \code{\link{plot.avophylo}} documentation.\tabular{lll}{
    Codes \tab Full name \tab Definition \cr
    S \tab Sister \tab Grafted as a sister to a known extant or extinct species already in the tree \cr
    SSG \tab Sister species group \tab Grafted as a sister to a group of extant and/or extinct species already in the tree \cr
@@ -107,6 +110,9 @@ If \code{Ntree} > 1, a progress bar will be displayed.\tabular{lll}{
 # trees <- AvoPhylo(ctrees = BirdTree_trees,
 # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
 # tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+
+#See the plot.avophylo documentation for the different available
+#plotting options.
 }
 \references{
 Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions in
