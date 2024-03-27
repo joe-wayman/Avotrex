@@ -15,8 +15,8 @@ knitr::opts_chunk$set(
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/avotrex)](https://cran.r-project.org/package=avotrex)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/avotrex)](https://cran.r-project.org/package=avotrex)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-yellow.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![CircleCI](https://circleci.com/gh/joe-wayman/avotrex/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/joe-wayman/avotrex?branch=master)
-[![Codecov test coverage](https://codecov.io/gh/joe-wayman/avotrex/branch/master/graph/badge.svg)](https://app.codecov.io/gh/joe-wayman/avotrex?branch=master)
+[![CircleCI](https://circleci.com/gh/joe-wayman/avotrex/tree/main.svg?style=svg)](https://app.circleci.com/pipelines/github/joe-wayman/avotrex?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/joe-wayman/avotrex/branch/main/graph/badge.svg)](https://app.codecov.io/gh/joe-wayman/avotrex?branch=main)
 
 
 Repository for the avotrex R package.  
