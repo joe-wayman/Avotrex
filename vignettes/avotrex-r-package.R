@@ -105,7 +105,7 @@ plot(treesEx[[1]],
      cex = 0.5)
 
 ## ----dpi=300, fig.height=5, fig.width=5---------------------------------------
-#family (plot all three trees this time)
+#family (plot all two trees this time)
 plot(treesEx, 
      avotrex = AvotrexPhylo, 
      tax = BirdTree_tax,
@@ -135,7 +135,7 @@ plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
 
 ## ----dpi=300, message=FALSE, warning=FALSE------------------------------------
 ##single species only 1 level back
-plot(treesEx[[3]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
      species = "Ara_tricolor",
      tips = "all_dif",
      tips_col = c("red", "darkgreen"),
@@ -145,7 +145,7 @@ plot(treesEx[[3]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
 
 ## ----dpi=300, message=FALSE, warning=FALSE------------------------------------
 #increase levels back
-plot(treesEx[[3]], avotrex = AvotrexPhylo, 
+plot(treesEx[[2]], avotrex = AvotrexPhylo, 
      tax = BirdTree_tax,
      species = "Ara_tricolor",
      tips = "all_dif",

@@ -97,7 +97,7 @@ S3 method for class 'avophylo'.
 # tax = BirdTree_tax, Ntree = 3, n.cores = 3, 
 # cluster.ips = NULL)
 
-#For here, we can load in an example set of three trees 
+#For here, we can load in an example set of two trees 
 #generated using the above code
 
 data(treesEx)
@@ -136,7 +136,7 @@ plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
      type = "cladogram")
 
 ##single species 2 levels back
-plot(treesEx[[3]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
      species = "Ara_tricolor",
      tips = "all_dif",
      tips_col = c("red", "darkgreen"),
