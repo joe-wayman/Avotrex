@@ -5,11 +5,11 @@
 Bird Tree trees
 }
 \description{
-Five Bird Tree backbone trees obtained from Jetz et al. (2012). 
+Two Bird Tree backbone trees obtained from Jetz et al. (2012). 
 }
 \usage{data("BirdTree_trees")}
 \format{
-  A large multiPhylo object consisting of five elements. 
+  A multiPhylo object consisting of two elements. 
 }
 \details{
 If necessary, more details than the __description__ above
