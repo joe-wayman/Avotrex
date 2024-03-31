@@ -231,10 +231,15 @@ plot.avophylo <- function(x,
   class(tree) <- "phylo"
 
   #filter out AP species from Jetz (i.e., extinct sp in
-  #BirdTree)
+  #BirdTree)[if any included - if a user filters AvotrexPhylo,
+  #e.g., as we do in the vignette, the AP species may not be
+  #included and thus this errors. But note, in this case they 
+  #may still be plotted as they won't be removed from Jetz]
   AP_sp <- avotrex[which(avotrex$Type == "AP"),]$species
+  if (length(AP_sp) > 0){
   if (!all(AP_sp %in% tax$TipLabel)) stop("AP species not in Jetz")
   tax <- tax[-which(tax$TipLabel %in% AP_sp),]
+  }
   
   #Select and format Jetz columns
   plot_df1 <- tax[,c("TipLabel", "Genus",

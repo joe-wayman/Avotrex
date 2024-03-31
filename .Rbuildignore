@@ -3,3 +3,5 @@
 ^LICENSE\.md$
 ^\.circleci$
 ^README.Rmd$
+^cran-comments\.md$
+^CRAN-SUBMISSION$

@@ -41,11 +41,12 @@ of supplied trees (\code{length(ctrees))}.}
 \item{cluster.ips}{Cluster location. Keep as default.}
 }
 \value{
-The function returns an object of class 'avophylo', which is a list
-consisting of N trees (each of class 'phylo') that were randomly selected
-from the supplied number. These trees have all had the extinct species from
-AvoTrex grafted on. For more details on the grafting, see: Sayol et al. (IN
-PREP).
+The function returns an object of class
+'multiAvophylo', which is a list consisting of N trees (each
+of class 'avophylo' and 'phylo') that were randomly selected
+from the supplied number. These trees have all had the
+extinct species from AvoTrex grafted on. For more details on
+the grafting, see: Sayol et al. (IN PREP).
 }
 \description{
 Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
@@ -110,6 +111,9 @@ the \code{\link{plot.avophylo}} documentation.\tabular{lll}{
 # trees <- AvoPhylo(ctrees = BirdTree_trees,
 # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
 # tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
+# class(trees)
+# trees[[1]]
+# class(trees[[1]])
 
 #See the plot.avophylo documentation for the different available
 #plotting options.
