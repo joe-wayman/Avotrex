@@ -2,7 +2,7 @@
 title: "avotrex R Package"
 author: Joseph P. Wayman and Thomas J. Matthews
 output: rmarkdown::html_vignette
-biliography: REFERENCES.bib
+bibliography: REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{avotrex R Package}
   \usepackage[utf8]{inputenc}
@@ -16,31 +16,30 @@ knitr::opts_chunk$set(
 options(cli.unicode = F)
 ```
 
-This vignette is heavily based on the papers that accompany the package [@***]. To cite this vignette, please
+This vignette is heavily based on the papers that accompany the package [@Matthews2024;@Sayol2024]. To cite this vignette, please
 cite the corresponding papers:
 
-Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic diversity from extinctions 
-in the Holocene and Late Pleistocene
+Matthews et al. (IN REVIEW) The global loss of avian functional and phylogenetic 
+   diversity from anthropogenic extinctions.
 
-Sayol et al. (IN PREP) The global loss of avian functional and phylogenetic diversity from extinctions in the 
-Holocene and Late Pleistocene
+Sayol et al. (IN REVIEW) AVOTREX: A global dataset of extinct birds and their traits.
 
 ## BACKGROUND
-The AVOTREX database represents a comprehensive repository of species-level traits for all known extinct bird species (*n = 605*) from the past 130,000 years to the present day, globally. The database provides valuable information on geographical location, species island endemicity, and several species-level traits, including flight ability, body mass and eight standard external morphological measurements. The AVOTREX project also aimed to generate a pipeline to graft extinct species onto supplied phylogenetic trees, providing the means to quantify phylogenetic diversity loss [@***]. This resulted in the 'avotrex' R package and the focus of this vignette. The package (avotrex) allows a user to build trees using the AVOTREX database, build multiple trees in parallel, and plot a variety of tree types to display the created phylogenies. It has been set up to work with the BirdTree set of phylogenies [@***]; however, it can be adapted to work with any taxonomy and phylogenetic backbone.
+The AVOTREX database represents a comprehensive repository of species-level traits for all known extinct bird species (*n = 605*) from the past 130,000 years to the present day [@Sayol2024]. The database provides valuable information on geographical location, species island endemicity, and several species-level traits, including flight ability, body mass and eight standard external morphological measurements. The AVOTREX project also aimed to generate a pipeline to graft extinct species onto supplied phylogenetic trees, providing the means to quantify phylogenetic diversity loss [@Matthews2024]. This resulted in the 'avotrex' R package and the focus of this vignette. The package (avotrex) allows a user to build trees using the AVOTREX database, build multiple trees in parallel, and plot a variety of tree types to display the resultant phylogenies. It has been set up to work with the BirdTree set of phylogenies [@Jetz2012]; however, it can be adapted to work with any taxonomy and phylogenetic backbone.
 
 
 ## METHODOLOGY AND FUNCTIONS
 The avotrex R package has been programmed using standard S3 methods and is 
-available on CRAN (version 1.0.0) and the development version on GitHub (joe-wayman/avotrex). The package 
-includes a sample of the BirdTree phylogenetic trees of extant birds [@***] alongside the extinct traits 
+available on CRAN (version 1.0.0); the development version is available on GitHub (joe-wayman/avotrex). The package 
+includes a sample of the BirdTree phylogenetic trees of extant birds [@Jetz2012] alongside the extinct traits 
 database, to allow users to build phylogenetic trees incorporating the extinct species using the methodology 
-detailed below and within [@***]. Further BirdTree phylogenies can be sourced from: https://birdtree.org/. Users can add species to the database allowing them to be included in produced trees (see "Adding new species" section, below). Therefore, this package represents a resource that allows users (i) to generate as many trees as needed, (ii) easily incorporate new species, (iii) modify codes and instructions provided for extinct species within the database and (iv) use a different phylogenetic tree as a base if other global bird phylogeneies become available. 
+detailed below and within [@Sayol2024; @Matthews2024]. Further BirdTree phylogenies can be sourced from: https://birdtree.org/. Users can add species to the database allowing them to be included in the produced trees (see "Adding new species" section, below). Therefore, this package represents a resource that allows users to (i) generate as many trees as needed, (ii) easily incorporate new species, (iii) modify codes and instructions provided for extinct species within the database and (iv) use a different phylogenetic tree as a base if other global bird phylogenies become available. 
 
-### Tree building - AvoPhylo
+### Tree building - AvoPhylo()
 
-To build trees, we use the AvoPhylo function, which is the primary function within the package. The function provides an algorithmic pipeline to join species onto a provided phylogeny in a set order based on their known taxonomic affinities. These instructions are provided as codes in the "Type" column of the "AvotrexPhylo" database. Each code joins the species to the tree in a set manner based on their known taxonomic affinities to currently extant and other extinct species (Table.1). Input phylogenies (e.g., BirdTree trees) must be of class phylo. As some species need to be joined before others (e.g., the first representative of an extinct taxonomic order needs to be joined as a sister to an entire taxonomic order already in the tree), the "Id_sps" column sets the order in which the species are to be joined. Furthermore, the column "phylo_id2" determines if species are part of groups consisting of close relatives whose exact taxonomic relationships are unknown. If the species are part of one of the groups, their joining order is randomized before the start of the grafting.  
+To build trees, we use the AvoPhylo function, which is the primary function within the package. The function provides an algorithmic pipeline to join species onto a provided phylogeny in a set order based on their known taxonomic affinities. These instructions are provided as codes in the "Type" column of the "AvotrexPhylo" database. Each code joins the species to the tree in a set manner based on their known taxonomic affinities to currently extant and other extinct species (Table.1). Input phylogenies (e.g., BirdTree trees) must be of class 'phylo'. As some species need to be joined before others (e.g., the first representative of an extinct taxonomic order needs to be joined as a sister to an entire taxonomic order already in the tree), the "phylo_id2" column sets the order in which the species are to be joined. Species with the value 'xS' in the "phylo_id2" column are members of specific groups ('Group' column) which are grafted separately afterwards. The grafting order of species within groups is randomized before the start of the grafting. This accounts for the fact that there are numerous groups of species in the database for which using a pre-defined grafting order does not effectively account for the uncertainty related to their placement in the tree (e.g., Pacific rails). 
 
-As can be deduced by the randomization of groups, the uncertainty inherent within the input trees, and the codes used to graft extinct species (Table.1), each tree produced is different. It is, therefore, useful to run the tree building and grafting a number of times to account for this uncertainty. To accommodate the need to produce large number of trees, the package allows the grafting to be conducted in parallel on multiple cores (see 'n.cores' argument). Note that the function will run on one core as default and if only one tree is supplied. If more than one tree is used, a progress bar will be displayed so users can track the building, which is particularly useful when creating a large number of trees. Trees for grafting can also be randomly selected from a number of input trees by giving the function a group of trees using the argument 'ctrees' and then defining a smaller number using 'Ntree'.
+As can be deduced by the randomization of groups, the uncertainty inherent within the input trees, and the codes used to graft extinct species (Table.1), each tree produced is different. It is, therefore, useful to run the tree building and grafting a number of times to account for this uncertainty. To accommodate the need to produce large number of trees, the package allows the grafting to be conducted on different trees in parallel on multiple cores (see the 'n.cores' argument). Note that the function will run on one core as default and if only one tree is supplied. If more than one tree is used, a progress bar will be displayed so users can track the building, which is particularly useful when creating a large number of trees. Trees for grafting can also be randomly selected from a number of input trees by giving the function a list of trees using the argument 'ctrees' and then defining a smaller number using 'Ntree'.
 
 Table. 1. Joining codes and definitions of how each joins the species onto the global phylogeny.
 
@@ -58,7 +57,7 @@ Table. 1. Joining codes and definitions of how each joins the species onto the g
  RFG   | Random family group         | Grafted to a randomly selected species from a given family                          |  
  RSGG  | Random sister genus group   | Grafted as sister to a randomly selected genus from a pre-defined group of genera   | 
  RSGG2 | Random sister genus group 2 | Grafted as sister to a randomly selected genus from a pre-defined family            |                                                                                                    
-Further information on the pipeline and the grafting procedure can be found in @***.
+Further information on the pipeline and the grafting procedure can be found in @Sayol2024 and @Matthews2024.
 
 ```{r Tree building example, eval=FALSE}
 
@@ -125,11 +124,11 @@ plot(trees[[1]],
      cex = 0.6)
 
 ```
-Some species may have to be joined in a more complicated way, depending upon their taxonomic affinities with both extant and extinct species. For example, if a newly added species is a closer relative to a species than an extinct species currently in the database that has the code S (meaning it is joined as a sister) then both the types of grafting code and the grafting order need to be updated. The package authors can be contacted when assistance is needed adding single or multiple species. 
+Some species may have to be joined in a more complicated way, depending upon their taxonomic affinities with both extant and extinct species. For example, if a newly added species is a closer relative to a species than an extinct species currently in the database that has the code 'S' (meaning it is joined as a sister) then both the types of grafting code and the grafting order need to be updated. The package authors can be contacted when assistance is needed adding single or multiple species. 
 
 ## PLOTTING
-The avotrex package, when loaded, provides the user with a number of ways to plot produced trees to visually examine or display the branching patterns. The function uses the ape package's 'plot.phylo' and can take any argument from that
-function (e.g. 'type' argument). Below we show a number of examples of what is possible using the plot function with a set of example trees provided within the package (treesEx).  
+The avotrex package, when loaded, provides the user with a number of ways to plot produced trees to visually examine or display the branching patterns. The function uses the ape package's 'plot.phylo' function [@Paradis] and can take any argument from that
+function (e.g. the 'type' argument). Below we show a number of examples of what is possible using the plot function with a set of example trees provided within the package (treesEx).  
 
 Note - if using the 'lvls' argument, a warning is 
 provided. This comes from the tidytree::tree_subset
@@ -154,7 +153,7 @@ data(treesEx)
 #      type = "fan")
 
 ```
-Users can select a specific order, family, or genus to plot. The tip labels can be changed to show only extinct species labels ("tips == extinct"), all of the species in the same colour ("all_same"), all of the species, but with extinct labels in a separate colour ("all_dif") or no labels ("none"). 
+Users can select a specific order, family, or genus to plot. The tip labels can be changed to show only extinct species labels ("tips == extinct"), all of the species in the same colour ("all_same"), all of the species but with extinct labels in a separate colour ("all_dif"), or no labels ("none"). See the help documentation for 'plot.avophylo()' for further information.
 ```{r, dpi=300, fig.height=6, fig.width=6}
 #order (owls) - just show extinct tip names (in red) and using
 #a fan plot
@@ -212,7 +211,7 @@ plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
      tips_col = c("red", "darkgreen"),
      type = "cladogram")
 ```
-Lastly, the plot function can take a single species, with the number of levels of the tree it includes determined by the 'lvls' argument.
+Lastly, the plot function can take a single species, with the number of levels back (i.e., rootward) it includes determined by the 'lvls' argument.
 ```{r, dpi=300, message=FALSE, warning=FALSE}
 ##single species only 1 level back
 plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
