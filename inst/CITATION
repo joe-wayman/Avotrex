@@ -1,4 +1,4 @@
-citHeader("To cite nos in publications use:")
+citHeader("To cite avotrex in publications use:")
 
 bibentry(,
   bibtype      = "Article",

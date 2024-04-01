@@ -8,8 +8,8 @@ Authors@R: c(person("Joseph", "Wayman", email = "j.wayman@bham.ac.uk",
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3122-8070")),
                   person("Thomas J.", "Matthews", email = "txm676@gmail.com",
                   role = c("aut"), comment = c(ORCID = "0000-0002-7624-244X")),
-                  person("Paul", email = "t",
-                  role = c("ctb"), comment = c(ORCID = "0")))
+                  person("Paul", "Dufour", role = c("ctb")),
+                  person("Ferran", "Sayol", role = c("ctb")))
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Depends: 
