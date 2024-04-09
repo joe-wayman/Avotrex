@@ -1,7 +1,7 @@
 Package: avotrex
 Version: 1.0.0
 Type: Package
-Title: A global dataset of anthropogenic extinct birds and their traits: Phylogeny builder
+Title: A Global Dataset of Anthropogenic Extinct Birds and their Traits: Phylogeny Builder
 Description: Grafts the extinct bird species from the Avotrex database on to the
     BirdTree phylogenies, using a set of different commands.
 Authors@R: c(person("Joseph", "Wayman", email = "j.wayman@bham.ac.uk",
