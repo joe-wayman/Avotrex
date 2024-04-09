@@ -1,5 +1,5 @@
 
-##This is a new submission
+##This is a re-submission
 *version 1.0.0 of the avotrex package
 
 ##Test environments
