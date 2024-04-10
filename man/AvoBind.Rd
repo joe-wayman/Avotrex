@@ -24,6 +24,9 @@ rather than random (FALSE; default)}
 
 \item{sp_name}{Name of the grafted species}
 }
+\value{
+Returns a tree of class "phylo", with the extinct species grafted on.
+}
 \description{
 Binds an extinct species at a randomly selected
 point along a branch, after truncating either end.

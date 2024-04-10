@@ -175,7 +175,7 @@ AvoPhylo <- function(
   }
   
   if (Ntree < n.cores){
-    cat(paste0("As Ntree == ",Ntree," only ",Ntree," core(s) will be used\n"))
+    message(paste0("As Ntree == ",Ntree," only ",Ntree," core(s) will be used\n"))
   }
   
   # Set up the cluster for parallel processing 
@@ -396,7 +396,7 @@ AvoPhylo <- function(
             }
             
             ## Check if the node still is length zero
-            if(length(nodeX) == 0){print(paste0("Node is still zero length for ", 
+            if(length(nodeX) == 0){message(paste0("Node is still zero length for ", 
                                                 ex$Type[j], " for species ", 
                                                 ex$species[j],
                                                 " (row ", j, ") after random species selection."))}

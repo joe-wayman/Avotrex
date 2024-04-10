@@ -64,6 +64,9 @@ documentation of that function for further info).}
 \item{\dots}{Other plotting arguments from the ape package's
 \link[ape]{plot.phylo} can be provided.}
 }
+\value{
+Generates a phylogeny plot of \code{x}.
+}
 \description{
 S3 method for class 'avophylo'.
   \code{plot.avophylo} creates plots for objects of class

@@ -19,7 +19,7 @@
 )
 }
 \arguments{
-\item{x}{An object of class 'avophylo'.}
+\item{x}{An object of class 'multiAvophylo'.}
 
 \item{tips}{What tip labels to present. Can be one of
 "extinct" (just tip labels of extinct species), "none" (no
@@ -64,6 +64,9 @@ documentation of that function for further info).}
 \item{\dots}{Other plotting arguments from the ape package's
 \link[ape]{plot.phylo} can be provided.}
 }
+\value{
+Generates a phylogeny plot for each tree in \code{x}.
+}
 \description{
 S3 method for class 'multiAvophylo'. See the
   \code{\link{plot.avophylo}} documentation for more
@@ -75,7 +78,7 @@ S3 method for class 'multiAvophylo'. See the
 \examples{
 #See the plot.avophylo documentation for further examples
 data(treesEx)
-#family (plot all three trees this time)
+#family (plot both trees in turn)
 plot(treesEx, avotrex = AvotrexPhylo, tax = BirdTree_tax,
      family = "Threskiornithidae", tips = "extinct",
      tip.color = "red", cex = 0.5)

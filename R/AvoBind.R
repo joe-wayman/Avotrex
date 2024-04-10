@@ -14,6 +14,7 @@
 #'   point along a branch (TRUE), which is chosen using the \code{per} argument,
 #'   rather than random (FALSE; default)
 #' @param sp_name Name of the grafted species
+#' @return Returns a tree of class "phylo", with the extinct species grafted on.
 #' @importFrom phytools bind.tip
 #' @export
 

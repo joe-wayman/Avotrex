@@ -6,7 +6,7 @@
 #'   
 #'   Plots individual trees in turn (with the user required to
 #'   press 'enter' to move to the next plot).
-#' @param x An object of class 'avophylo'.
+#' @param x An object of class 'multiAvophylo'.
 #' @param tips What tip labels to present. Can be one of
 #'   "extinct" (just tip labels of extinct species), "none" (no
 #'   tip labels) or "all_same" (show all labels, with same colour
@@ -41,10 +41,11 @@
 #' @param \dots Other plotting arguments from the ape package's
 #'   \link[ape]{plot.phylo} can be provided.
 #' @importFrom grDevices devAskNewPage
+#' @return Generates a phylogeny plot for each tree in \code{x}.
 #' @examples
 #' #See the plot.avophylo documentation for further examples
 #' data(treesEx)
-#' #family (plot all three trees this time)
+#' #family (plot both trees in turn)
 #' plot(treesEx, avotrex = AvotrexPhylo, tax = BirdTree_tax,
 #'      family = "Threskiornithidae", tips = "extinct",
 #'      tip.color = "red", cex = 0.5)
@@ -146,6 +147,7 @@ plot.multiAvophylo <- function(x,
 #' @importFrom ape keep.tip plot.phylo
 #' @importFrom tidytree tree_subset
 #' @importFrom graphics par
+#' @return Generates a phylogeny plot of \code{x}.
 #' @examples
 #' # Generate a set of trees
 #' # data(BirdTree_trees)
@@ -215,6 +217,9 @@ plot.avophylo <- function(x,
                           tax,
                           lvls = NULL,
                           ...){
+  
+  oldpar <- par(no.readonly = TRUE) # code line i
+  on.exit(par(oldpar)) # code line i + 1
   
   tree <- x
 

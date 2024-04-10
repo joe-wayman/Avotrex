@@ -2,7 +2,19 @@
 ##This is a re-submission
 *version 1.0.0 of the avotrex package
 
-*Updated the title to be in title case.
+*We have put single quotes around the two database names in the 
+description, and added a URL to the one. The other is in review and
+we have now made this clear.
+
+*We have added add \value to the .Rd files of all exported functions.
+
+*Both instances of print and cat have been changed to message().
+
+*It is necessary for us to change the par() within our plot function, but
+we have now ensured the settings are reset on exit.
+
+*We have removed the LICENSE file and its reference in the Description.
+
 *The doSNOW package is required to output a progress bar from the foreach loop through .options.snow argument. This is not possible in the doParallel package. 
 
 ##Test environments
