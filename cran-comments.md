@@ -17,6 +17,8 @@ we have now ensured the settings are reset on exit.
 
 *The doSNOW package is required to output a progress bar from the foreach loop through .options.snow argument. This is not possible in the doParallel package. 
 
+*Updated the html to include slashes ("https://birdtree.org") within the DESCRIPTION.
+
 ##Test environments
 *local Windows 10 install, R 4.3.2
 *Ubuntu 20.04.6 LTS (64-bit), R 4.3.3 (via Circle CI)
