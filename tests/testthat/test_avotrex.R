@@ -32,6 +32,15 @@ expect_error(AvoPhylo(ctrees = BirdTree_trees,
                       PER = 0.2, PER_FIXED = 0.75,
                       tax = BirdTree_tax, Ntree = 6))
 
+
+expect_error(AvoPhylo(ctrees = BirdTree_trees,
+                      avotrex = AvotrexPhylo,
+                      PER = 0.2, PER_FIXED = 0.75,
+                      tax = BirdTree_tax,
+                      ord = c(FALSE, TRUE),
+                      Ntree = 1, n.cores = 1))
+
+
 AvotrexPhylo2 <- AvotrexPhylo
 AvotrexPhylo2$Type[1] <- "P"
 expect_error(AvoPhylo(ctrees = BirdTree_trees,

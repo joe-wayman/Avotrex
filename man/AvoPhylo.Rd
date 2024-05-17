@@ -5,8 +5,8 @@
 \title{AvoPhylo: Building phylogenies based on the AvoTrex extinct bird trait
 database and BirdTree backbone}
 \usage{
-AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, Ntree,
-  n.cores = 1, cluster.ips = NULL)
+AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, ord =
+  FALSE, Ntree, n.cores = 1, cluster.ips = NULL)
 }
 \arguments{
 \item{ctrees}{Either (i) object (of class multiPhylo) containing multiple
@@ -25,18 +25,29 @@ within the package.}
 (see \code{\link{AvoBind}} for more details). Can be left at the default
 value.}
 
-\item{PER_FIXED}{Point along a branch (expressed as a fraction of the branch
-length, rootward) to graft the species in the phylogeny database
-(\code{avotrex} argument) which are set to TRUE in the per_fixed column (to
-reduce very short branch lengths) (see \code{\link{AvoBind}} for more
-details). Can be left at the default value.}
+\item{PER_FIXED}{Point along a branch (expressed as a fraction
+of the branch length, rootward) to graft the species in the
+phylogeny database (\code{avotrex} argument) which are set
+to TRUE in the per_fixed column (to reduce very short branch
+lengths) (see \code{\link{AvoBind}} for more details). Can
+be left at the default value.}
 
-\item{Ntree}{The number of trees to sample from the supplied number of
-BirdTree trees (i.e., \code{ctrees}). Value must be greater than the number
-of supplied trees (\code{length(ctrees))}.}
+\item{ord}{Should the trees within \code{ctrees} be kept in
+order (TRUE) and all used (i.e., the output list of trees is
+in the same order as \code{ctrees}) in the grafting, or
+should trees be randomly sampled from \code{ctrees} (FALSE;
+the default) prior to grafting. If \code{ord == TRUE},
+\code{Ntree} must equal the length of \code{ctrees}. If only
+a single tree is provided, this argument does nothing.}
 
-\item{n.cores}{Number of cores used to build the phylogeny. Default is one
-(will run with parallel processing)}
+\item{Ntree}{The number of trees to sample from the supplied
+number of BirdTree trees (i.e., \code{ctrees}), if \code{ord
+  == FALSE}. Value must be greater or equal to the number of
+supplied trees (\code{length(ctrees))}. If \code{ord ==
+  TRUE}, \code{Ntree} must equal the length of \code{ctrees}.}
+
+\item{n.cores}{Number of cores used to build the phylogeny.
+Default is one (will run with parallel processing)}
 
 \item{cluster.ips}{Cluster location. Keep as default.}
 }
@@ -79,11 +90,12 @@ randomised before grafting (see above), it is useful to run the grafting
 procedure over a a number of trees to average out the randomisation.
 Therefore, the function can be run in parallel using the argument
 \code{n.cores}. Note that the function will run on one core as default and if
-only one tree is supplied. Trees can also be randomly selected from a number
-of trees by giving the function a group of trees using the argument
-\code{ctrees} and then defining a smaller number using \code{Ntree}. If the
-maximum number of trees is to be used, \code{Ntree} should equal
-\code{length(ctrees)}.
+only one tree is supplied. Trees for grafting can be randomly selected from a
+number of input trees by giving the function a group of input trees using the
+argument \code{ctrees} and then defining a smaller number using \code{Ntree}.
+If the maximum number of input trees is to be used, \code{Ntree} should equal
+\code{length(ctrees)}. If you want the outputted list of trees to match the
+order of trees in \code{ctrees}, set \code{ord = TRUE}.
 
 If \code{Ntree} > 1, a progress bar will be displayed.
 
