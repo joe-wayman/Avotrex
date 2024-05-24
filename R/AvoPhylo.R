@@ -153,6 +153,11 @@ AvoPhylo <- function(
     ){
   
 
+  unregister_dopar <- function() {
+    env <- foreach:::.foreachGlobals
+    rm(list=ls(name=env), pos=env)
+  }
+  
   if (!all(avotrex$Type %in% c("AP","RFG","RGG", "RGG2", "RSG", 
                                "RSGG","RSGG2","S","SFG", 
                                "SGG","SGG2","SOG","SSG",
@@ -212,6 +217,7 @@ AvoPhylo <- function(
   if (exists("temp.cluster")) {
     doParallel::registerDoParallel(cl = temp.cluster)
     doSNOW::registerDoSNOW(temp.cluster)
+    on.exit(stopCluster(temp.cluster))
   }
   
   #Set a progress bar to return progress of the foreach loop: for one core this is updated within the loop
@@ -596,6 +602,8 @@ AvoPhylo <- function(
 
   ## Finish Tree ## 
   class(ctreesComplete) <- c("multiAvophylo", "multiPhylo")    # Change the class
+  
+  unregister_dopar()
   
   return(ctreesComplete)
   
