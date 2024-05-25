@@ -1,6 +1,6 @@
 utils::globalVariables(c("phylo_id2", "Group",
                          "BLFamilyLatin", "Order",
-                         "Clade", "i"))
+                         "Clade", "i", "stopCluster"))
 
 #' AvoPhylo: Building phylogenies based on the AvoTrex extinct bird trait
 #' database and BirdTree backbone
@@ -116,6 +116,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #'   extinct species from AvoTrex grafted on. For more details on
 #'   the grafting, see: Sayol et al. (IN PREP).
 #' @importFrom parallel makeCluster
+#' @importFrom parallel stopCluster
 #' @importFrom snow makeSOCKcluster
 #' @importFrom doParallel registerDoParallel
 #' @importFrom doSNOW registerDoSNOW
@@ -124,6 +125,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @importFrom dplyr filter
 #' @importFrom stringr str_split
 #' @importFrom stats runif
+#' @importFrom utils getFromNamespace
 #' @import ape
 #' @examples 
 #' # data(BirdTree_trees)
@@ -151,12 +153,6 @@ AvoPhylo <- function(
     n.cores = 1,
     cluster.ips = NULL
     ){
-  
-
-  unregister_dopar <- function() {
-    env <- foreach:::.foreachGlobals
-    rm(list=ls(name=env), pos=env)
-  }
   
   if (!all(avotrex$Type %in% c("AP","RFG","RGG", "RGG2", "RSG", 
                                "RSGG","RSGG2","S","SFG", 
@@ -603,7 +599,8 @@ AvoPhylo <- function(
   ## Finish Tree ## 
   class(ctreesComplete) <- c("multiAvophylo", "multiPhylo")    # Change the class
   
-  unregister_dopar()
+  fun <- utils::getFromNamespace(".foreachGlobals", "foreach")
+  rm(list=ls(name=fun), pos=fun)
   
   return(ctreesComplete)
   
