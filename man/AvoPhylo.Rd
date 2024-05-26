@@ -5,8 +5,8 @@
 \title{AvoPhylo: Building phylogenies based on the AvoTrex extinct bird trait
 database and BirdTree backbone}
 \usage{
-AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, ord =
-  FALSE, Ntree, n.cores = 1, cluster.ips = NULL)
+AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, mindist =
+  0.1, ord = FALSE, Ntree, n.cores = 1, cluster.ips = NULL)
 }
 \arguments{
 \item{ctrees}{Either (i) object (of class multiPhylo) containing multiple
@@ -16,7 +16,7 @@ object of class 'phylo'.}
 
 \item{avotrex}{The AvoTrex extinct species phylogeny database. This database
 contains the information and commands required to graft the extinct species
-on to the BirdTree trees.}
+on to the BirdTree trees. If edited, column names must remain unchanged.}
 
 \item{tax}{The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
 within the package.}
@@ -31,6 +31,11 @@ phylogeny database (\code{avotrex} argument) which are set
 to TRUE in the per_fixed column (to reduce very short branch
 lengths) (see \code{\link{AvoBind}} for more details). Can
 be left at the default value.}
+
+\item{mindist}{For ****, but when the provided grafting time point is too old
+(i.e., older than the parent node) or too young (i.e., younger than the
+child node) relative to the focal branch, grafting will occur
+\code{mindist} below the parent node or above the child node.}
 
 \item{ord}{Should the trees within \code{ctrees} be kept in
 order (TRUE) and all used (i.e., the output list of trees is
@@ -122,6 +127,7 @@ the \code{\link{plot.avophylo}} documentation.\tabular{lll}{
 # data(AvotrexPhylo)
 # trees <- AvoPhylo(ctrees = BirdTree_trees,
 # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
+# mindist = 0.1, ord = FALSE, 
 # tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
 # class(trees)
 # trees[[1]]

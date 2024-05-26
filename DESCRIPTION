@@ -8,9 +8,10 @@ Authors@R: c(person("Joseph", "Wayman", email = "j.wayman@bham.ac.uk",
                   person("Thomas J.", "Matthews", email = "txm676@gmail.com",
                   role = c("aut"), comment = c(ORCID = "0000-0002-7624-244X")),
                   person("Paul", "Dufour", role = c("ctb")),
-                  person("Ferran", "Sayol", role = c("ctb")))
+                  person("Ferran", "Sayol", role = c("ctb")),
+                  person("Pedro", "Cardoso", role = c("ctb")))
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Depends: 
     R (>= 4.0.0)
 biocViews:
@@ -26,6 +27,7 @@ Imports:
     snow,
     stringr,
     tidytree (>= 0.4.6),
+    TreeTools,
     utils
 License: GPL-3
 Suggests: testthat, markdown, knitr, rmarkdown, covr

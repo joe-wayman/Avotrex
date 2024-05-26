@@ -8,8 +8,8 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' @description
 #' Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
 #' 
-#' @usage AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, ord =
-#'   FALSE, Ntree, n.cores = 1, cluster.ips = NULL)
+#' @usage AvoPhylo(ctrees, avotrex, tax, PER = 0.2, PER_FIXED = 0.75, mindist =
+#'   0.1, ord = FALSE, Ntree, n.cores = 1, cluster.ips = NULL)
 #' 
 #' @details
 #' Function to build phylogenies incorporating the extinct species from the
@@ -82,7 +82,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #'   object of class 'phylo'.
 #' @param avotrex The AvoTrex extinct species phylogeny database. This database
 #'   contains the information and commands required to graft the extinct species
-#'   on to the BirdTree trees.
+#'   on to the BirdTree trees. If edited, column names must remain unchanged.
 #' @param tax The Jetz et al. (2012) BirdTree taxonomy .csv. Supplied as data
 #'   within the package.
 #' @param PER Percentage/fraction for branch truncation based on random grafting
@@ -94,6 +94,10 @@ utils::globalVariables(c("phylo_id2", "Group",
 #'   to TRUE in the per_fixed column (to reduce very short branch
 #'   lengths) (see \code{\link{AvoBind}} for more details). Can
 #'   be left at the default value.
+#' @param mindist For ****, but when the provided grafting time point is too old
+#'   (i.e., older than the parent node) or too young (i.e., younger than the
+#'   child node) relative to the focal branch, grafting will occur
+#'   \code{mindist} below the parent node or above the child node.
 #' @param ord Should the trees within \code{ctrees} be kept in
 #'   order (TRUE) and all used (i.e., the output list of trees is
 #'   in the same order as \code{ctrees}) in the grafting, or
@@ -133,6 +137,7 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' # data(AvotrexPhylo)
 #' # trees <- AvoPhylo(ctrees = BirdTree_trees,
 #' # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
+#' # mindist = 0.1, ord = FALSE, 
 #' # tax = BirdTree_tax, Ntree = 1, n.cores = 1, cluster.ips = NULL)
 #' # class(trees)
 #' # trees[[1]]
@@ -148,11 +153,14 @@ AvoPhylo <- function(
     tax, 
     PER = 0.2,
     PER_FIXED = 0.75,
+    mindist = 0.1,
     ord = FALSE,
     Ntree,
     n.cores = 1,
     cluster.ips = NULL
     ){
+  
+  avotrex <- as.data.frame(avotrex)
   
   if (!all(avotrex$Type %in% c("AP","RFG","RGG", "RGG2", "RSG", 
                                "RSGG","RSGG2","S","SFG", 
@@ -179,6 +187,13 @@ AvoPhylo <- function(
   
   if (length(ord) != 1 | !is.logical(ord)){
     stop("ord should be logical and of length 1")
+  }
+  
+  avotrex$time_fixed <- suppressWarnings(as.numeric(avotrex$time_fixed))#NA warning fine (just because already NAs in column)
+  
+  if (!all(sapply(avotrex$time_fixed, 
+                  function(y) (is.na(y) | is.numeric(y))))){
+    stop("time_fixed values should be either NA or numeric")
   }
   
   #subset a number of trees you want to run
@@ -243,7 +258,7 @@ AvoPhylo <- function(
       ctree <- ctrees[[i]]   # Each loop we do one tree
       
       ## Reorder the dataset 
-      ex <- as.data.frame(avotrex)
+      ex <- avotrex
       ex <- ex[order(ex$Id_sps),]
       row.names(ex) <- 1:nrow(ex)
       
@@ -272,13 +287,17 @@ AvoPhylo <- function(
       # For each extinct species find the optimum place to bind 
       for(j in 1:nrow(ex)){
         
-        #extract the species' per code and set the PER_VAL and
+        #First check if species is time_fixed, and if so, extract the time point
+        #info. If not extract the species' per code and set the PER_VAL and
         #per_fixed values.
         #For the clades with many closely related extinct species,
         #they have a per_fixed value of TRUE in the database. For these,
         #set per to 0.75 (or PER_FIXED provided value) to try to avoid 
         #really short terminal branches
         #(although sometimes this is forced due to BirdTree typology)
+        time_fix <- ex$time_fixed[j]
+        if (is.na(time_fix)){
+          time_graft <- FALSE
         per_val <- ex$per_fixed[j]
         if (per_val){
           PER_VAL <- PER_FIXED
@@ -286,7 +305,20 @@ AvoPhylo <- function(
         } else {
           PER_VAL <- PER
           pfv <- FALSE
-        }
+        }#eo if per_val
+        } else {
+          time_graft <- TRUE
+          PER_VAL <- time_fix
+          pfv <- NULL
+          if (length(mindist) > 1 | (!is.numeric(mindist))){
+            stop("mindist must be a numeric vector of length 1")
+          }
+          if (ex$Type[j] == "S"){
+            terminal <- TRUE
+          } else {
+            terminal <- FALSE
+          }#eo if type == S
+          }#eo if time_val
         
         # Code for checking where individual trees break
         # vec <- paste0(j, ex[j,]$species)
@@ -581,7 +613,9 @@ AvoPhylo <- function(
         # As a final step, Bind the extinct sp. on to tree
         ctree <- AvoBind(tree = ctree, node = nodeX,
                          per = PER_VAL, per_fixed = pfv,
-                         sp_name = ex$species[j])
+                         sp_name = ex$species[j],
+                         time_graft = time_graft,
+                         terminal = terminal, mindist = mindist)
 
       } #eo for j
 
