@@ -27,7 +27,7 @@ options(cli.unicode = F)
 library(avotrex)
 #Create a new species to add to the main database; not the
 #values in the vector match the columns in AvotrexPhylo
-vaporhams <- c("x644", "x644", "FALSE", NA, "Vapor_hams",
+vaporhams <- c("x644", "x644", "FALSE", NA, NA, "Vapor_hams",
                "Strigiformes", "Strigidae", "Athene",
                "STRIGIFORMES", "Strigidae", "Athene",
                "S", NA, NA, NA, "Athene", "noctua", NA)

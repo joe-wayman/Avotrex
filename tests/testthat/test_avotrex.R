@@ -40,6 +40,18 @@ expect_error(AvoPhylo(ctrees = BirdTree_trees,
                       ord = c(FALSE, TRUE),
                       Ntree = 1, n.cores = 1))
 
+expect_error(AvoPhylo(ctrees = BirdTree_trees,
+                      avotrex = AvotrexPhylo,
+                      PER = 0.2, PER_FIXED = 0.75,
+                      tax = BirdTree_tax))
+
+AvotrexPhylo$time_fixed[1] = "A"
+expect_error(AvoPhylo(ctrees = BirdTree_trees,
+                      avotrex = AvotrexPhylo,
+                      PER = 0.2, PER_FIXED = 0.75,
+                      tax = BirdTree_tax))
+AvotrexPhylo$time_fixed[1] = "NA"
+
 
 AvotrexPhylo2 <- AvotrexPhylo
 AvotrexPhylo2$Type[1] <- "P"
@@ -83,6 +95,28 @@ test_that("Output makes sense: 1 input tree", {
 
   expect_true(sum(trees[[1]]$edge.length) >
                 sum(BirdTree_trees[[1]]$edge.length))
+  
+  
+  #test_that "time_fixed grafting is working"
+  
+  YY <- c("Genyornis_newtoni", "Upupa_antaios", 
+          "Sylviornis_neocaledoniae", "Aepyornis_maximus",
+          "Dromaius_minor",
+          "Dromaius_baudinianus",
+          "Xenicus_gilviventris")
+  
+  nodes <- sapply(YY,function(x,y) which(y==x),
+                  y=trees[[1]]$tip.label)
+  
+  SNt1 <- setNames(trees[[1]]$edge.length[sapply(nodes,
+                                                 function(x,y) which(y==x),
+                                                 y=trees[[1]]$edge[,2])],
+                   names(nodes))
+  
+  SNt1 <- as.vector(round(SNt1, 2))
+  
+  expect_identical(SNt1, c(70, 14, 32, 3.31,
+                           0.01, 0.01, 4))
 
 })
 

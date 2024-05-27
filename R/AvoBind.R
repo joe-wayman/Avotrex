@@ -84,11 +84,11 @@ AvoBind <- function(
 }
 
 
-#' Internal function to graft at specific time point
-#' len = point to graft (in units of branch lengths);
-#' mindist = branch length if len is too young/old for
-#' the branch in question; terminal = is grafting using
-#' a terminal branch
+#Internal function to graft at specific time point
+#len = point to graft (in units of branch lengths);
+#mindist = branch length if len is too young/old for
+#the branch in question; terminal = is grafting using
+#a terminal branch
 #' @importFrom TreeTools AddTip
 #' @importFrom ape getMRCA branching.times
 

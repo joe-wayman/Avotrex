@@ -5,7 +5,7 @@
   * cluster now closed on exit 
   * AgeBind() internal function added which allows for species
     to be grafted at a specific time point along a branch.
-  * AvoBind() updated to work with AgeBind()
+  * AvoBind() and AvoPhylo() updated to work with AgeBind()
   
   
 ## Version 1.0.0

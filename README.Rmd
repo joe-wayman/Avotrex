@@ -28,21 +28,25 @@ as this provides access to its full range of classes and functions.
 
 As this is version 1.1.0 of the package, it is possible that there are some bugs in places. Please report any issues to us via GitHub.
 
+Please see the accompanying paper (Sayol et al., in review) and package vignette for more detailed information regarding use of the package.
+
+Sayol, F., J. P. Wayman, P. Dufour, and et al. 2024. “AVOTREX: A Global Dataset of Extinct Birds and Their Traits.” Journal Article. In Review.
+
 ## Installation
 
-You can install the released version of avotrex from CRAN with:
-
-And the development version from GitHub.
+You can install the released version of avotrex from CRAN and the development version from GitHub.
 
 ## Example usage
 
 library(avotrex)
 
-data(BirdTree_trees) # Load in the example trees 
-data(BirdTree_tax)   # Load in the extant BirdTree taxonomy 
-data(AvotrexPhylo)   # Load in the extinct grafting database and instructions
+data(BirdTree_trees) # Load in the example trees   
+data(BirdTree_tax)   # Load extant BirdTree taxonomy  
+data(AvotrexPhylo)   # Load in the extinct grafting database and instructions  
 
 trees <- AvoPhylo(ctrees = Trees, 
-avotrex = AvotrexPhylo, PER = 0.2, tax = tax, 
+avotrex = AvotrexPhylo, PER = 0.2, 
+PER_FIXED = 0.75, mindist = 0.1, 
+ord = FALSE, tax = tax, 
 Ntree = 1, n.cores = 1, cluster.ips = NULL)
 
