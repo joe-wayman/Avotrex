@@ -97,7 +97,7 @@ S3 method for class 'avophylo'.
 # data(AvotrexPhylo)
 # trees <- AvoPhylo(ctrees = BirdTree_trees,
 # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
-# tax = BirdTree_tax, Ntree = 3, n.cores = 3, 
+# tax = BirdTree_tax, Ntree = 2, n.cores = 2, 
 # cluster.ips = NULL)
 
 #For here, we can load in an example set of two trees 
@@ -117,7 +117,7 @@ plot(treesEx, avotrex = AvotrexPhylo, tax = BirdTree_tax,
      tip.color = "red", cex = 0.5)
 
 #genus - cladogram plot
-plot(treesEx[[1]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
      genus = "Aplonis", tips = "extinct",
      type = "cladogram",
      tip.color = "red", cex = 0.5)

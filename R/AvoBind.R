@@ -74,7 +74,7 @@ AvoBind <- function(
       stop("terminal must be a logical vector of length = 1")
     }
     
-    tree <- AgeBind(tree =tree, node = node,
+    tree <- AgeBind(tree = tree, node = node,
                     sp_name = sp_name, 
                     len = per, mindist = mindist, 
                     terminal = terminal)
@@ -97,16 +97,39 @@ AgeBind <- function(tree, node, sp_name,
   
   if (terminal){
  #   newPlace <- match(tip, tree$tip.label)
-    tree <- TreeTools::AddTip(tree, node, label = sp_name, 
-                   edgeLength = len, 
+    
+    #Check if the terminal branch length is < the
+    #grafting length (len / edgeLength); if so, 
+    #change it
+    EN <- which(tree$edge[,2] == node)
+    EL <- tree$edge.length[EN]
+    if (EL < len){
+      #if terminal branch is > 1 in length, just graft it
+      #0.1 below the parent node
+      if (EL > 1){
+        len <- EL - 0.1
+        #if shorter than 1, graft it at the 90th percent
+        #point (going up from the child node)
+      } else {
+        len <- EL * 0.9
+      }
+    } 
+    tree <- TreeTools::AddTip(tree, node,
+                   label = sp_name,
+                   edgeLength = len,
                    lengthBelow = len)
   } else {
  #   ancestor <- ape::getMRCA(tree, tip) #get most recent ancestor
     timeAncestor <- ape::branching.times(tree)[which(names(branching.times(tree)) == 
                                                        node)] #time of MRCA
     above <- tree$edge[which(tree$edge[,2] == node), 1]
-    timeAbove <- ape::branching.times(tree)[which(names(branching.times(tree)) == 
-                                               above)] #time of node above MRCA
+    timeAbove <- ape::branching.times(tree)[which(names(branching.times(tree)) ==
+                                                    above)] #time of node above MRCA
+    #if mindist longer than target branch, change it to
+    #10% of branch length
+    EL <- timeAbove - timeAncestor
+    if (mindist > EL) mindist <- EL * 0.1
+
     if (len < timeAncestor){
       lenBelow <- mindist
       len <- timeAncestor + mindist

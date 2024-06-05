@@ -43,7 +43,8 @@ utils::globalVariables(c("phylo_id2", "Group",
 #' or younger than the child node, in respect to a given focal
 #' branch), we graft the species just below the parent node or
 #' just above the child node (using a branch length set by
-#' \code{mindist}).
+#' \code{mindist} - if \code{mindist} is longer than the focal
+#' branch in a given grafting event, it is adjusted accordingly).
 #' 
 #' As some of the codes (see table below) randomly place the
 #' given species within a group of species, a genus, or a family,
@@ -273,6 +274,10 @@ AvoPhylo <- function(
     {
       
       ctree <- ctrees[[i]]   # Each loop we do one tree
+      
+      ult <- ape::is.ultrametric(ctree)
+      neg <- any(ctree$edge.length < 0)
+      if (neg) warning("Input tree contains negative branch lengths")
       
       ## Reorder the dataset 
       ex <- avotrex
@@ -641,12 +646,21 @@ AvoPhylo <- function(
         setTxtProgressBar(pb, i)
       }
       
+      #checks at end
+      if (length(ctree$edge.length) == 0) stop("No edge lengths in grafted tree")
+      if (!neg){
+        if (any(ctree$edge.length < 0)) stop("Negative branch lengths present")
+      }
+      if (ult){
+        if (!is.ultrametric(ctree)) stop("Input tree ultrametric, but grafted tree is not")
+      }
+
       #change class of individual trees to include avophylo
       class(ctree) <- c("avophylo", "phylo")
       return(ctree)          # Return the tree object
       
     }#eo for each
-
+  
   ## Finish Tree ## 
   class(ctreesComplete) <- c("multiAvophylo", "multiPhylo")    # Change the class
   

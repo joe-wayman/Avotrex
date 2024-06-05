@@ -101,7 +101,8 @@ time point for grafting is either older than the parent node
 or younger than the child node, in respect to a given focal
 branch), we graft the species just below the parent node or
 just above the child node (using a branch length set by
-\code{mindist}).
+\code{mindist} - if \code{mindist} is longer than the focal
+branch in a given grafting event, it is adjusted accordingly).
 
 As some of the codes (see table below) randomly place the
 given species within a group of species, a genus, or a family,

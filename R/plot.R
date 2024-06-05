@@ -155,7 +155,7 @@ plot.multiAvophylo <- function(x,
 #' # data(AvotrexPhylo)
 #' # trees <- AvoPhylo(ctrees = BirdTree_trees,
 #' # avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
-#' # tax = BirdTree_tax, Ntree = 3, n.cores = 3, 
+#' # tax = BirdTree_tax, Ntree = 2, n.cores = 2, 
 #' # cluster.ips = NULL)
 #' 
 #' #For here, we can load in an example set of two trees 
@@ -175,7 +175,7 @@ plot.multiAvophylo <- function(x,
 #'      tip.color = "red", cex = 0.5)
 #' 
 #' #genus - cladogram plot
-#' plot(treesEx[[1]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
+#' plot(treesEx[[2]], avotrex = AvotrexPhylo, tax = BirdTree_tax,
 #'      genus = "Aplonis", tips = "extinct",
 #'      type = "cladogram",
 #'      tip.color = "red", cex = 0.5)
@@ -234,7 +234,13 @@ plot.avophylo <- function(x,
   }
   
   class(tree) <- "phylo"
-
+  
+  #filter out extinct species in avotrex database that user 
+  #does not have in their tree
+  wnot2 <- which(!avotrex$species %in% tree$tip.label) 
+  if (length(wnot2) == nrow(avotrex)) stop("No extinct species in tree")
+  if (length(wnot2) > 0) avotrex <- avotrex[-wnot2,]
+  
   #filter out AP species from Jetz (i.e., extinct sp in
   #BirdTree)[if any included - if a user filters AvotrexPhylo,
   #e.g., as we do in the vignette, the AP species may not be

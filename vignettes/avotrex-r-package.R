@@ -95,7 +95,7 @@ plot(treesEx[[1]],
 
 ## ----dpi=300, fig.height=5----------------------------------------------------
 #genus - cladogram plot
-plot(treesEx[[1]], 
+plot(treesEx[[2]], 
      avotrex = AvotrexPhylo, 
      tax = BirdTree_tax,
      genus = "Aplonis", 

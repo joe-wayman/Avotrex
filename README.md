@@ -20,7 +20,7 @@ Note that the package imports and loads in the ‘ape’ R package in its
 entirety, as this provides access to its full range of classes and
 functions.
 
-As this is version 1.1.0 of the package, it is possible that there are
+As this is version 1.2.0 of the package, it is possible that there are
 some bugs in places. Please report any issues to us via GitHub.
 
 Please see the accompanying paper (Sayol et al., in review) and package
