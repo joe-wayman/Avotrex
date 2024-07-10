@@ -61,10 +61,9 @@ Default is one (will run with parallel processing)}
 \value{
 The function returns an object of class
 'multiAvophylo', which is a list consisting of N trees (each
-of class 'avophylo' and 'phylo') that were randomly selected
-from the supplied number. These trees have all had the
-extinct species from AvoTrex grafted on. For more details on
-the grafting, see: Sayol et al. (IN PREP).
+of class 'avophylo' and 'phylo') that were selected from the
+supplied set of input trees. These ouput trees have all had
+the extinct species from AvoTrex grafted on.
 }
 \description{
 Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
@@ -73,7 +72,7 @@ Grafting extinct species onto BirdTree phylogenies using the AvoTrex database
 Function to build phylogenies incorporating the extinct species from the
 AvoTrex extinct birds database (Sayol et al.). AvoTrex provides data on
 geographical location, island endemicity, volancy, body size and standard
-external and skeleton morphological measurements for 605 extinct bird
+external and skeleton morphological measurements for 610 extinct bird
 species. The AvoPhylo function provides a pipeline to incorporate the extinct
 species from AvoTrex into the "BirdTree" phylogenies of extant birds (Jetz et
 al. 2012). Utilising codes assigned to each species based on their known
@@ -83,13 +82,18 @@ BirdTree phylogeny. Input phylogenies (i.e., BirdTree trees) must be of class
 
 BirdTree phylogenies can be sourced from: https://birdtree.org/
 
-The species are grafted onto the tree in a set order provided in the column
-"Id_sps", as certain species need to be grafted onto the tree before other
-species. Some species are assigned to groups within the data. These species
-are assigned a code "xS" within the column "phylo_id2". These species groups
-consist of close relatives, whose exact taxonomic relationships are unknown.
-Therefore, the order in which they are joined is randomised. See Sayol et al.
-and Matthews et al. for further details.
+As certain species need to be grafted onto the tree before
+other species, a number of the species are grafted in a set
+order. This ordering is controlled through the “sp_id”,
+“phylo_id” and “group” columns in the extinct species
+phylogeny database. Before grafting, the database is ordered
+by the “sp_id” column, with the “phylo_id” and “group” columns
+used to filter out particular groups of species (i.e., those
+classified as "xS" in the "phylo_id" column) to be grafted in
+different orders (i.e., either a randomised order within
+groups, or a fixed order within groups). See the package
+vignette, as  well as Sayol et al. and Matthews et al., for
+further details.
 
 For a subset of species (primarily those in older clades), we
 have constrained the grafting to take place at a specific time
@@ -104,11 +108,11 @@ just above the child node (using a branch length set by
 \code{mindist} - if \code{mindist} is longer than the focal
 branch in a given grafting event, it is adjusted accordingly).
 
-As some of the codes (see table below) randomly place the
-given species within a group of species, a genus, or a family,
-and some species groups are randomised before grafting (see
-above), it is useful to run the grafting procedure over a a
-number of trees to average out the randomisation. Therefore,
+As some of the grafting codes (see table below) randomly place
+the given species within a group of species, a genus, or a
+family, and some species groups are randomised before grafting
+(see above), it is useful to run the grafting procedure over a
+a number of trees to average out the randomisation. Therefore,
 the function can be run in parallel using the argument
 \code{n.cores}. Note that the function will run on one core as
 default and if only one tree is supplied. Trees for grafting

@@ -246,7 +246,7 @@ plot.avophylo <- function(x,
   #e.g., as we do in the vignette, the AP species may not be
   #included and thus this errors. But note, in this case they 
   #may still be plotted as they won't be removed from Jetz]
-  AP_sp <- avotrex[which(avotrex$Type == "AP"),]$species
+  AP_sp <- avotrex[which(avotrex$type == "AP"),]$species
   if (length(AP_sp) > 0){
   if (!all(AP_sp %in% tax$TipLabel)) stop("AP species not in Jetz")
   tax <- tax[-which(tax$TipLabel %in% AP_sp),]
@@ -256,20 +256,20 @@ plot.avophylo <- function(x,
   plot_df1 <- tax[,c("TipLabel", "Genus",
                      "BLFamilyLatin",
                      "Order")]
-  colnames(plot_df1) <- c("species", "Jetz_Genus",
-                          "Jetz_Family", "Jetz_Order")
+  colnames(plot_df1) <- c("species", "jetz_genus",
+                          "jetz_family", "jetz_order")
   plot_df1$Status <- "Extant"
   
   #In case someone selects an extinct genus, family etc,
   #we need to swap the "Extinct" label in the Jetz columns
   #with the name from the "Birdlife" columns
-  wEx <- which(avotrex[,"Jetz_Order"] == "Extinct")
-  avotrex[wEx, "Jetz_Order"] <- 
-    avotrex[wEx, "Order"]
+  wEx <- which(avotrex[,"jetz_order"] == "Extinct")
+  avotrex[wEx, "jetz_order"] <- 
+    avotrex[wEx, "order"]
   
-  plot_df2 <- avotrex[, c("species", "Jetz_Order", 
-                          "Jetz_Family", "Jetz_Genus")]
-  plot_df2$Jetz_Order <- toupper(plot_df2$Jetz_Order) 
+  plot_df2 <- avotrex[, c("species", "jetz_order", 
+                          "jetz_family", "jetz_genus")]
+  plot_df2$jetz_order <- toupper(plot_df2$jetz_order) 
   plot_df2$Status <- "Extinct"
   plot_df3 <- rbind(plot_df1, plot_df2)
   
@@ -298,9 +298,9 @@ plot.avophylo <- function(x,
     }
     
     level2 <- switch(level,
-                     "genus" = c("Genus", "Jetz_Genus"),
-                     "family" = c("Family", "Jetz_Family"),
-                     "order" = c("Order", "Jetz_Order"))
+                     "genus" = c("genus", "jetz_genus"),
+                     "family" = c("family", "jetz_family"),
+                     "order" = c("order", "jetz_order"))
     
     if (length(unique(plot_df3$species)) != nrow(plot_df3)){
       stop("Multiple species with same names after filtering out 

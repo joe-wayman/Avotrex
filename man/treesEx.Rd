@@ -12,7 +12,7 @@ data(treesEx)
 }
 \description{
 A "multiAvophylo" object containing two AvoPhylo trees,
-generated using the AvoPhylo function. Includes 605 extinct
+generated using the AvoPhylo function. Includes 610 extinct
 species.
 }
 \examples{

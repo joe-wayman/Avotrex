@@ -35,7 +35,7 @@ vaporhams <- c("x644", "x644", "FALSE", NA, NA, "Vapor_hams",
 #Just for speed, filter the main database just to include owls.
 #However, note that in this case, the 12 'AP' species are not
 #removed completely as they are already in BirdTree.
-AvotrexPhylo2 <- AvotrexPhylo[AvotrexPhylo$Order == 'Strigiformes',]
+AvotrexPhylo2 <- AvotrexPhylo[AvotrexPhylo$order == 'Strigiformes',]
 
 #Add the new owl species. The species can be added as a final row
 #to AvotrexPhylo as adding it makes no changes to other

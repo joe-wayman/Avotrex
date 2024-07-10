@@ -54,7 +54,7 @@ AvotrexPhylo$time_fixed[1] = "NA"
 
 
 AvotrexPhylo2 <- AvotrexPhylo
-AvotrexPhylo2$Type[1] <- "P"
+AvotrexPhylo2$type[1] <- "P"
 expect_error(AvoPhylo(ctrees = BirdTree_trees,
                       avotrex = AvotrexPhylo2,
                       PER = 0.2, PER_FIXED = 0.75,
@@ -83,7 +83,7 @@ test_that("Output makes sense: 1 input tree", {
 
   Ntip <- length(BirdTree_trees[[1]]$tip.label) +
     nrow(AvotrexPhylo) -
-    (length(which(AvotrexPhylo$Type == "AP")))
+    (length(which(AvotrexPhylo$type == "AP")))
 
   expect_identical(length(trees[[1]]$tip.label), Ntip)
 
@@ -142,7 +142,7 @@ test_that("Output makes sense: > 1 input tree", {
   expect_true(length(trees2) == 2)
 
   Ntip <- length(BirdTree_trees[[2]]$tip.label) +
-    nrow(AvotrexPhylo) - (length(which(AvotrexPhylo$Type == "AP")))
+    nrow(AvotrexPhylo) - (length(which(AvotrexPhylo$type == "AP")))
 
   expect_identical(length(trees2[[2]]$tip.label), Ntip)
 
