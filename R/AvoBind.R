@@ -128,7 +128,14 @@ AgeBind <- function(tree, node, sp_name,
     #if mindist longer than target branch, change it to
     #10% of branch length
     EL <- timeAbove - timeAncestor
-    if (mindist > EL) mindist <- EL * 0.1
+    EL <- round(EL, 5)#rounding errors can make the next if statement fail
+    
+    #The equal to term deals with the case for Gastornithiformes
+    #and Sylviornithidae, where Genyornis_newtoni grafted as SOG to
+    #Galliformes first, then Sylviornithidae, and if the common ancestor
+    #of Galliformes is v old, they end up diverging from Galliformes
+    #at the same time point
+    if (mindist >= EL) mindist <- EL * 0.1
 
     if (len < timeAncestor){
       lenBelow <- mindist
