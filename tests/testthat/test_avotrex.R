@@ -2,6 +2,50 @@ context("avotrex tests")
 library(avotrex)
 library(ape)
 
+# ##Manual tests on 1000 trees
+# r1 <- ape::read.tree(file.choose())
+# r2 <- ape::read.tree(file.choose())
+# r3 <- ape::read.tree(file.choose())
+# rr <- c(r1, r2, r3)
+# data(BirdTree_tax)
+# data(AvotrexPhylo)
+# trees <- AvoPhylo(ctrees = rr,
+# avotrex = AvotrexPhylo, PER = 0.2, PER_FIXED = 0.75,
+# mindist = 0.1, ord = FALSE,
+# tax = BirdTree_tax, Ntree = 1000,
+# n.cores = 10, cluster.ips = NULL)
+# 
+# saveRDS(trees, file = "trees_1000_610sp.rds")
+# 
+# all(sapply(trees, is.ultrametric))
+# L2 <- sapply(trees,
+#            function(x) min(x$edge.length))
+# all(L2 > 0)
+# L3 <- sapply(trees, function(x) length(x$tip.label))
+# all(L3 == (9993 - 12 + nrow(AvotrexPhylo)))
+# 
+# #Check ages of fixed age grafting species
+# YY <- c("Genyornis_newtoni", "Upupa_antaios",
+#         "Sylviornis_neocaledoniae", "Aepyornis_maximus",
+#         "Nannococcyx_psix", "Dromaius_minor",
+#         "Dromaius_baudinianus", "Chaetoptila_sp_Maui",
+#         "Psilopterus_sp_Uruguay", "Traversia_lyalli",
+#         "Xenicus_longipes", "Pachyplichas_yaldwyni",
+#         "Xenicus_gilviventris", "Pachyornis_geranoides")
+# 
+# 
+# nn <- sample(1:1000, 50)
+# BLT <- sapply(nn, function(z){
+# nodes <- sapply(YY,
+#                 function(x,y) which(y==x),
+#                 y=trees[[z]]$tip.label)
+# 
+# setNames(trees[[z]]$edge.length[sapply(nodes,
+# function(x,y) which(y==x),y=trees[[z]]$edge[,2])],names(nodes))
+# })
+# 
+# round(BLT, 2)
+
 test_that("Main function errors correctly", {
 
   skip_on_cran()
@@ -76,6 +120,8 @@ test_that("Output makes sense: 1 input tree", {
   expect_true(is.list(trees))
   
   expect_true(is.ultrametric(trees))
+  
+  expect_false(any(trees[[1]]$edge.length <= 0))
 
   expect_is(trees, c("multiAvophylo",
                                 "multiPhylo"))
@@ -136,7 +182,10 @@ test_that("Output makes sense: > 1 input tree", {
   
   z <- sapply(trees2, is.ultrametric)
   expect_true(all(z))
-
+  
+  expect_false(any(sapply(trees2,
+                          function(x) any(x$edge.length <= 0))))
+  
   expect_is(trees2, c("multiAvophylo",
                      "multiPhylo"))
   expect_true(length(trees2) == 2)

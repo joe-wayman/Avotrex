@@ -1,6 +1,6 @@
 
 ##This is a new submission
-*version 1.2.0 of the avotrex package
+*version 1.3.0 of the avotrex package
 
 ##Test environments
 *local Windows 10 install, R 4.3.2
