@@ -1,4 +1,7 @@
 
+## Version 1.3.1
+  * Adding per value check to AvoBind()
+  * Updating references
 
 ## Version 1.3.0 
   * Updating database to 610 extinct species

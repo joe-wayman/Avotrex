@@ -6,13 +6,15 @@
 #'  time_graft = FALSE, terminal = FALSE, mindist = 0.1)
 #' @param tree Tree object (i.e., phylogeny) 
 #' @param node Target node 
-#' @param per The fraction (0-1) of total branch length to truncate at either
-#'   end of the branch for grafting (e.g. 0.2 cuts of 20\% of the total branch
+#' @param per The fraction (0 to a max value of 0.5) of total
+#'   branch length to truncate at either end of the branch for
+#'   grafting (e.g. 0.2 cuts of 20\% of the total branch
 #'   length from either end) if \code{per_fixed == FALSE}. If \code{per_fixed
 #'   == TRUE}, then the point along the branch where the grafting occurs: value
-#'   between 0-1, with a larger number meaning the grafting occurs closer to the
-#'   rootward end of the branch. If \code{time_graft = TRUE}, the specific point
-#'   (in millions of years, if BirdTree trees are used) for the grafting to
+#'   between 0-1, with a larger number meaning the grafting
+#'   occurs closer to the rootward end of the branch. If
+#'   \code{time_graft = TRUE}, the specific point (in millions of
+#'   years, if BirdTree trees are used) for the grafting to
 #'   occur.
 #' @param per_fixed Logical argument: whether to graft a species on at an exact
 #'   point (as a fraction) along a branch (TRUE), which is chosen using the
@@ -56,6 +58,7 @@ AvoBind <- function(
   Lx <- tree$edge.length[which(tree$edge[,2]==node)]   
   
   if (!per_fixed){
+    if (per > 0.5) stop("'per' should be <=0.5")
     #truncate the branch length
     LxTrun <- c((Lx * per), (Lx * (1 - per)))
   } else {

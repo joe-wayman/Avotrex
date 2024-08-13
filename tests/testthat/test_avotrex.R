@@ -89,6 +89,11 @@ expect_error(AvoPhylo(ctrees = BirdTree_trees,
                       PER = 0.2, PER_FIXED = 0.75,
                       tax = BirdTree_tax))
 
+expect_error(AvoPhylo(ctrees = BirdTree_trees,
+                      avotrex = AvotrexPhylo,
+                      PER = 0.7, PER_FIXED = 0.75,
+                      tax = BirdTree_tax, Ntree = 1))
+
 AvotrexPhylo$time_fixed[1] = "A"
 expect_error(AvoPhylo(ctrees = BirdTree_trees,
                       avotrex = AvotrexPhylo,

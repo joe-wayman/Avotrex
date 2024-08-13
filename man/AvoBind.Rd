@@ -12,13 +12,15 @@ AvoBind(tree, node, per, per_fixed = FALSE, sp_name,
 
 \item{node}{Target node}
 
-\item{per}{The fraction (0-1) of total branch length to truncate at either
-end of the branch for grafting (e.g. 0.2 cuts of 20\% of the total branch
+\item{per}{The fraction (0 to a max value of 0.5) of total
+branch length to truncate at either end of the branch for
+grafting (e.g. 0.2 cuts of 20\% of the total branch
 length from either end) if \code{per_fixed == FALSE}. If \code{per_fixed
 == TRUE}, then the point along the branch where the grafting occurs: value
-between 0-1, with a larger number meaning the grafting occurs closer to the
-rootward end of the branch. If \code{time_graft = TRUE}, the specific point
-(in millions of years, if BirdTree trees are used) for the grafting to
+between 0-1, with a larger number meaning the grafting
+occurs closer to the rootward end of the branch. If
+\code{time_graft = TRUE}, the specific point (in millions of
+years, if BirdTree trees are used) for the grafting to
 occur.}
 
 \item{per_fixed}{Logical argument: whether to graft a species on at an exact
